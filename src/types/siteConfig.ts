@@ -82,8 +82,8 @@ export type SiteConfig = {
 		friends: boolean; // 友链页面开关
 		sponsor: boolean; // 打赏页面开关
 		guestbook: boolean; // 留言板页面开关
-		bangumi: boolean;
 		gallery: boolean; // 相册页面开关
+		memo: boolean; // 备忘录页面开关
 	};
 
 	// 分类导航栏开关
@@ -123,15 +123,6 @@ export type SiteConfig = {
 		sharePoster?: boolean;
 		// OpenGraph图片功能
 		generateOgImages: boolean;
-	};
-
-	// bangumi配置
-	bangumi?: {
-		userId?: string; // Bangumi用户ID
-		mode?: "static" | "dynamic"; // 数据模式：static=构建时获取，dynamic=客户端实时获取
-		apiUrl?: string; // Bangumi API 地址
-		subjectBaseUrl?: string; // 条目详情页地址
-		categoryOrder?: ("anime" | "game" | "book" | "music" | "real")[]; // 条目类型排序顺序
 	};
 
 	// 分页配置

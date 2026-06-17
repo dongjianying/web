@@ -48,8 +48,8 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			// 相册
 			LinkPresets.Gallery,
 
-			// 番组计划
-			LinkPresets.Bangumi,
+			// 备忘录
+			LinkPresets.Memo,
 		],
 	});
 
@@ -76,13 +76,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			{
 				name: "GitHub",
-				url: "https://github.com/CuteLeaf/Firefly",
+				url: "https://github.com/dongjianying",
 				external: true,
 				icon: "fa7-brands:github",
 			},
 			{
 				name: "Gitee",
-				url: "https://gitee.com/CuteLeaf/Firefly",
+				url: "https://gitee.com/dong20031120",
 				external: true,
 				icon: "fa7-brands:gitee",
 			},
@@ -165,11 +165,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/about/",
 		icon: "material-symbols:person",
 	},
-	Bangumi: {
-		name: "番组计划",
-		url: "/bangumi/",
-		icon: "material-symbols:movie",
-		pageKey: "bangumi",
+	Memo: {
+		name: "备忘录",
+		url: "/memo/",
+		icon: "material-symbols:sticky-note-2",
+		pageKey: "memo",
 	},
 	Gallery: {
 		name: "相册",

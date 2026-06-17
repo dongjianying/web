@@ -41,28 +41,25 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
-			"assets/images/DesktopWallpaper/d1.avif",
-			"assets/images/DesktopWallpaper/d2.avif",
-			"assets/images/DesktopWallpaper/d3.avif",
-			"assets/images/DesktopWallpaper/d4.avif",
-			"assets/images/DesktopWallpaper/d5.avif",
-			"assets/images/DesktopWallpaper/d6.avif",
+			"assets/images/DesktopWallpaper/1.jpg",
+			"assets/images/DesktopWallpaper/2.png",
+			"assets/images/DesktopWallpaper/3.jpg",
+			"assets/images/DesktopWallpaper/4.jpg",
+			"assets/images/DesktopWallpaper/6.jpg",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
 		mobile: [
-			"assets/images/MobileWallpaper/m1.avif",
-			"assets/images/MobileWallpaper/m2.avif",
-			"assets/images/MobileWallpaper/m3.avif",
-			"assets/images/MobileWallpaper/m4.avif",
-			"assets/images/MobileWallpaper/m5.avif",
-			"assets/images/MobileWallpaper/m6.avif",
+			"assets/images/MobileWallpaper/1.jpg",
+			"assets/images/MobileWallpaper/2.jpg",
+			"assets/images/MobileWallpaper/3.jpg",
+			"assets/images/MobileWallpaper/4.jpg",
 		],
 	},
 	// 横幅壁纸和全屏壁纸共享配置
 	common: {
 		// 横幅文字遮罩暗度，0-1之间，值越大越暗
-		dimOpacity: 0.2,
+		dimOpacity: 0.1,
 		// 主页横幅文字
 		homeText: {
 			// 是否启用主页横幅文字
@@ -70,20 +67,20 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 是否允许用户通过控制面板切换横幅标题显示
 			switchable: true,
 			// 主页横幅主标题
-			title: "Lovely firefly!",
+			title: "欢迎来到董健颖的个人空间！",
 			// 主页横幅主标题字体大小
-			titleSize: "3.8rem",
+			titleSize: "3.4rem",
 			// 主页横幅副标题
 			subtitle: [
-				"In Reddened Chrysalis, I Once Rest",
-				"From Shattered Sky, I Free Fall",
-				"Amidst Silenced Stars, I Deep Sleep",
-				"Upon Lighted Fyrefly, I Soon Gaze",
-				"From Undreamt Night, I Thence Shine",
-				"In Finalized Morrow, I Full Bloom",
+				"体验和经历的意义是引导你，并非定义你",
+				"所以究竟是相信真相，还是童话，是你们每个人的选择",
+				"推倒一世之智勇，开拓万古之心胸",
+				"人一生真的不能只是谋生，谋生只是手段，谋心才是目的",
+				"Roots grow deep in the dark, so the tree can trust the light",
+				"No victory comes without a price",
 			],
 			// 主页横幅副标题字体大小
-			subtitleSize: "1.5rem",
+			subtitleSize: "1.1rem",
 			typewriter: {
 				// 是否启用打字机效果
 				// 打字机开启 → 循环显示所有副标题
@@ -104,7 +101,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 是否开启毛玻璃模糊效果，开启可能会影响页面性能，如果不开启则是半透明，请根据自己的喜好开启
 			enableBlur: true,
 			// 毛玻璃模糊度
-			blur: 5,
+			blur: 2,
 		},
 		// 水波纹动画效果配置，开启会影响页面性能，请根据自己的喜好开启
 		waves: {
@@ -140,11 +137,11 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 横幅图片轮播配置，仅在当配置多张图片时生效
 		carousel: {
 			// 是否启用横幅图片轮播；关闭时保持每次刷新随机显示一张
-			enable: false,
+			enable: true,
 			// 轮播切换间隔（毫秒）
 			interval: 5000,
 			// 是否允许用户通过控制面板切换横幅轮播
-			switchable: false,
+			switchable: true,
 		},
 	},
 	// 全屏透明覆盖模式特有配置

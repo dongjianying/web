@@ -67,7 +67,6 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 
 侧边栏中使用的各种功能小部件。
 
-- `Advertisement.astro` - 广告组件
 - `Announcement.astro` - 公告组件
 - `Calendar.astro` - 日历组件
 - `Categories.astro` - 分类组件
@@ -103,13 +102,6 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 特定页面使用的组件，不用于其他页面。
 
 - `AdvancedSearch.svelte` - 高级搜索组件
-
-**pages/bangumi/** - 番组计划页面组件
-- `BangumiGrid.svelte` - 番组网格布局组件
-- `BangumiSection.astro` - 番组分类展示组件
-- `Card.svelte` - 番组卡片组件
-- `FilterControls.svelte` - 筛选控制组件
-- `TabNav.svelte` - 标签导航组件
 
 **pages/gallery/** - 相册页面组件
 - `AlbumCard.astro` - 相册卡片组件

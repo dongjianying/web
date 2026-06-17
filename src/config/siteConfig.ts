@@ -21,8 +21,8 @@ export const siteConfig: SiteConfig = {
 	// 站点关键词
 	keywords: [
 		"personal resume",
-		"Fuwari",
-		"Astro",
+		"董健颖",
+		"私人博客",
 		"ACGN",
 		"博客",
 		"技术博客",
@@ -73,12 +73,12 @@ export const siteConfig: SiteConfig = {
 		// 3. 本地图片（src目录，自动优化但会增加构建时间）: { type: "image", value: "assets/images/logo.webp", alt: "Logo" }
 		// 4. 网络图片: { type: "url", value: "https://example.com/logo.png", alt: "Logo" }
 		logo: {
-			type: "image",
-			value: "assets/images/firefly.png",
-			alt: "🍀",
+			type: "icon",
+			value: "material-symbols:menu-book-outline",
+			alt: "🪐",
 		},
 		// 导航栏标题
-		title: "Firefly",
+		title: "董健颖的个人博客",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中
@@ -94,20 +94,20 @@ export const siteConfig: SiteConfig = {
 
 	// 站点时区（IANA 时区字符串），用于格式化bangumi、rss里的构建日期时间等等..
 	// 示例："Asia/Shanghai", "UTC", 如果为空，则按照构建服务器的时区进行时区转换
-	timezone: "Asia/Shanghai",
+	timezone: "Asia/shanghai",
 
 	// 页面开关配置 - 控制特定页面的访问权限，设为false会返回404并自动隐藏对应的导航栏菜单项
 	pages: {
 		// 友链页面开关
 		friends: true,
 		// 打赏页面开关
-		sponsor: true,
+		sponsor: false,
 		// 留言板页面开关，需要配置评论系统
 		guestbook: true,
-		// 番组计划页面开关，含追番、游戏、书籍和音乐
-		bangumi: true,
 		// 相册页面开关
 		gallery: true,
+		// 备忘录页面开关
+		memo: true,
 	},
 
 	// 分类导航栏开关，在首页和归档页顶部显示分类快捷导航
@@ -155,24 +155,6 @@ export const siteConfig: SiteConfig = {
 		sharePoster: true,
 		// OpenGraph图片功能，注意开启后要渲染很长时间，不建议本地调试的时候开启
 		generateOgImages: false,
-	},
-
-	// bangumi配置
-	bangumi: {
-		// Bangumi用户ID
-		userId: "1143164",
-		// 数据模式：static=构建时获取，dynamic=客户端实时获取
-		// static 模式在构建时获取数据并静态渲染，部署后数据不更新
-		// dynamic 模式在浏览器中实时请求 API，始终显示最新数据
-		mode: "dynamic",
-		// Bangumi API 地址
-		apiUrl: "https://api.bangumi.one",
-		// 详情页地址
-		subjectBaseUrl: "https://bangumi.one/subject/",
-		// 条目类型排序，数组中的类型将按顺序优先展示
-		// 可选值: "anime" | "book" | "music" | "game" | "real" (暂不支持"real"类型)
-		// 未列出的类型将按默认顺序排在后面
-		categoryOrder: ["anime", "book", "music", "game"],
 	},
 
 	// 分页配置

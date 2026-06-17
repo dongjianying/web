@@ -38,7 +38,7 @@ export const spineModelConfig: SpineModelConfig = {
 	// 交互配置
 	interactive: {
 		// 交互功能开关
-		enabled: true,
+		enabled: false,
 		// 点击时随机播放的动画列表
 		clickAnimations: [
 			"emoji_0",
@@ -50,9 +50,8 @@ export const spineModelConfig: SpineModelConfig = {
 		],
 		// 点击时随机显示的文字消息
 		clickMessages: [
-			"你好呀！我是流萤~",
+			"你好呀！我是董健颖~",
 			"今天也要加油哦！✨",
-			"想要一起去看星空吗？🌟",
 			"记得要好好休息呢~",
 			"有什么想对我说的吗？💫",
 			"让我们一起探索未知的世界吧！🚀",
@@ -155,7 +154,7 @@ export const live2dWidgetConfig: Live2DWidgetConfig = {
 	// 提示气泡配置
 	tips: {
 		// 气泡开关
-		enable: true,
+		enable: false,
 		// 初始欢迎消息
 		welcomeMessage: ["你好呀！", "欢迎来到我的世界！"],
 		// 循环提示内容
