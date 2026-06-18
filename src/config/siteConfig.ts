@@ -103,7 +103,7 @@ export const siteConfig: SiteConfig = {
 		// 打赏页面开关
 		sponsor: false,
 		// 留言板页面开关，需要配置评论系统
-		guestbook: true,
+		guestbook: false,
 		// 相册页面开关
 		gallery: true,
 		// 备忘录页面开关
