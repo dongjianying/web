@@ -77,7 +77,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 				"推倒一世之智勇，开拓万古之心胸",
 				"人一生真的不能只是谋生，谋生只是手段，谋心才是目的",
 				"Roots grow deep in the dark, so the tree can trust the light",
-				"No victory comes without a price",
+				"请尽量让你的生活不要重复三万次，因为那样会很无聊",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.1rem",
