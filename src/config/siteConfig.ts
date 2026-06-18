@@ -16,7 +16,7 @@ export const siteConfig: SiteConfig = {
 
 	// 站点描述
 	description:
-		"这是我的个人博客，记录我的学习和生活点滴，分享我的技术经验和见解。希望在这里能与志同道合的朋友们交流和成长！",
+		"这是我的个人博客，记录我的学习和生活点滴，分享我的学习经验和见解。希望在这里能与志同道合的朋友们交流和成长！",
 
 	// 站点关键词
 	keywords: [
@@ -78,7 +78,7 @@ export const siteConfig: SiteConfig = {
 			alt: "🪐",
 		},
 		// 导航栏标题
-		title: "董健颖的个人博客",
+		title: "董健颖的博客",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中

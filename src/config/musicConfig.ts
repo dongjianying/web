@@ -14,7 +14,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	mode: "local",
 
 	// 默认音量 (0-1)
-	volume: 0.7,
+	volume: 0.3,
 
 	// 播放模式：'list'=列表循环, 'one'=单曲循环, 'random'=随机播放
 	playMode: "list",
@@ -50,9 +50,33 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	local: {
 		playlist: [
 			{
+				name: "Changes (空灵鼓DJ)",
+				artist: "FTNwICcj",
+				url: "/assets/music/FTNwICcj_Changes (空灵鼓DJ)-404Hz.mp3",
+				cover: "/assets/music/cover/1.jpg",
+				lrc: "",
+			},
+
+			{
 				name: "如果这都不算爱",
 				artist: "张学友 ",
 				url: "/assets/music/张学友+-+如果这都不算爱.mp3",
+				cover: "/assets/music/cover/1.jpg",
+				lrc: "",
+			},
+
+			{
+				name: "天问",
+				artist: "刘宇宁 ",
+				url: "/assets/music/摩登兄弟刘宇宁-天问.mp3",
+				cover: "/assets/music/cover/1.jpg",
+				lrc: "",
+			},
+
+			{
+				name: "玻璃",
+				artist: "Gareth.T",
+				url: "/assets/music/Gareth.T - 玻璃.mp3",
 				cover: "/assets/music/cover/1.jpg",
 				lrc: "",
 			},
