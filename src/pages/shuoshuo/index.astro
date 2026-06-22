@@ -1,0 +1,783 @@
+---
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getCollection, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+
+const pad = (value: number) => String(value).padStart(2, "0");
+
+const formatDateKey = (date: Date) =>
+	`${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+
+const formatMonthKey = (date: Date) =>
+	`${date.getFullYear()}-${pad(date.getMonth() + 1)}`;
+
+const formatTime = (date: Date) =>
+	`${formatDateKey(date)} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+
+const formatDayLabel = (date: Date) =>
+	`${date.getMonth() + 1}月${date.getDate()}日`;
+
+const formatMonthLabel = (date: Date) =>
+	`${date.getFullYear()}年${date.getMonth() + 1}月`;
+
+const rawShuoshuo = await getCollection("shuoshuo", ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+const sortedShuoshuo = rawShuoshuo.sort(
+	(a, b) => b.data.published.getTime() - a.data.published.getTime(),
+);
+
+const shuoshuoItems = await Promise.all(
+	sortedShuoshuo.map(async (entry) => {
+		const { Content } = await render(entry);
+		const published = entry.data.published;
+		const monthKey = formatMonthKey(published);
+
+		return {
+			id: entry.id,
+			Content,
+			dateKey: formatDateKey(published),
+			dayLabel: formatDayLabel(published),
+			monthKey,
+			monthLabel: formatMonthLabel(published),
+			time: formatTime(published),
+			mood: entry.data.mood,
+			tags: entry.data.tags ?? [],
+		};
+	}),
+);
+
+const groupedMap = new Map<string, (typeof shuoshuoItems)[number][]>();
+for (const item of shuoshuoItems) {
+	if (!groupedMap.has(item.dateKey)) groupedMap.set(item.dateKey, []);
+	groupedMap.get(item.dateKey)?.push(item);
+}
+
+const groups = Array.from(groupedMap.entries()).map(([dateKey, items]) => ({
+	dateKey,
+	dayLabel: items[0]?.dayLabel ?? dateKey,
+	monthKey: items[0]?.monthKey ?? "",
+	items,
+}));
+
+const allTags = Array.from(
+	new Set(shuoshuoItems.flatMap((item) => item.tags)),
+).sort((a, b) => a.localeCompare(b, "zh-CN"));
+
+const monthMap = new Map<string, string>();
+for (const item of shuoshuoItems) {
+	if (!monthMap.has(item.monthKey))
+		monthMap.set(item.monthKey, item.monthLabel);
+}
+const allMonths = Array.from(monthMap.entries()).map(([key, label]) => ({
+	key,
+	label,
+}));
+
+const totalCount = shuoshuoItems.length;
+const latestTime = shuoshuoItems[0]?.time;
+---
+
+<MainGridLayout title="说说" description="记录生活中的小确幸">
+	<section class="shuoshuo-shell" data-total-count={totalCount}>
+		<header class="shuoshuo-hero">
+			<div class="shuoshuo-title-wrap">
+				<span class="shuoshuo-title-icon">
+					<Icon name="material-symbols:mode-comment-outline-rounded" />
+				</span>
+				<div>
+					<h2>说说</h2>
+					<p>记录生活中的小确幸</p>
+				</div>
+			</div>
+
+			<div class="shuoshuo-meta-summary">
+				<span>
+					<Icon name="material-symbols:chat-bubble-outline-rounded" />
+					{totalCount} 条
+				</span>
+				{latestTime && (
+					<span>
+						<Icon name="material-symbols:update-rounded" />
+						{latestTime}
+					</span>
+				)}
+			</div>
+		</header>
+
+		{totalCount > 0 && (
+			<div class="shuoshuo-toolbar card-base" id="shuoshuo-toolbar">
+				<div class="shuoshuo-filter-row">
+					<div class="shuoshuo-filter-label">
+						<Icon name="material-symbols:tag-rounded" />
+						标签
+					</div>
+					<div class="shuoshuo-filter-list">
+						<a
+							href="/shuoshuo/"
+							class="shuoshuo-filter-pill is-active"
+							data-filter-control
+							data-filter-type="tag"
+							data-value=""
+						>
+							全部
+						</a>
+						{allTags.map((tag) => (
+							<a
+								href={`/shuoshuo/?tag=${encodeURIComponent(tag)}`}
+								class="shuoshuo-filter-pill"
+								data-filter-control
+								data-filter-type="tag"
+								data-value={tag}
+							>
+								#{tag}
+							</a>
+						))}
+					</div>
+				</div>
+
+				<div class="shuoshuo-filter-row">
+					<div class="shuoshuo-filter-label">
+						<Icon name="material-symbols:archive-outline-rounded" />
+						归档
+					</div>
+					<div class="shuoshuo-filter-list">
+						<a
+							href="/shuoshuo/"
+							class="shuoshuo-filter-pill is-active"
+							data-filter-control
+							data-filter-type="month"
+							data-value=""
+						>
+							全部
+						</a>
+						{allMonths.map((month) => (
+							<a
+								href={`/shuoshuo/?month=${month.key}`}
+								class="shuoshuo-filter-pill"
+								data-filter-control
+								data-filter-type="month"
+								data-value={month.key}
+							>
+								{month.label}
+							</a>
+						))}
+					</div>
+				</div>
+
+				<div class="shuoshuo-active-filter" id="shuoshuo-active-filter" hidden>
+					<span></span>
+					<button type="button" data-filter-reset>
+						<Icon name="material-symbols:close-rounded" />
+						清除
+					</button>
+				</div>
+			</div>
+		)}
+
+		<div class="shuoshuo-empty card-base" id="shuoshuo-empty" hidden>
+			<Icon name="material-symbols:search-off-rounded" />
+			<span>没有找到符合条件的说说</span>
+		</div>
+
+		{totalCount === 0 ? (
+			<div class="shuoshuo-empty card-base">
+				<Icon name="material-symbols:chat-bubble-outline-rounded" />
+				<span>还没有说说</span>
+			</div>
+		) : (
+			<div class="shuoshuo-timeline" id="shuoshuo-container">
+				{groups.map((group) => (
+					<section
+						class="shuoshuo-group"
+						data-date={group.dateKey}
+						data-month={group.monthKey}
+					>
+						<header class="shuoshuo-group-header">
+							<h3>{group.dayLabel}</h3>
+							<span class="shuoshuo-group-count">{group.items.length} 条</span>
+							<i></i>
+						</header>
+
+						<div class="shuoshuo-group-body">
+							{group.items.map((item) => {
+								const Content = item.Content;
+								const tagsJson = JSON.stringify(item.tags);
+
+								return (
+									<article
+										class="shuoshuo-item"
+										data-tags={tagsJson}
+										data-month={item.monthKey}
+									>
+										<div class="shuoshuo-item-meta">
+											<span>
+												<Icon name="material-symbols:schedule-rounded" />
+												{item.time}
+											</span>
+											{item.mood && (
+												<span>
+													<Icon name="material-symbols:mood-rounded" />
+													{item.mood}
+												</span>
+											)}
+										</div>
+
+										<div class="shuoshuo-content custom-md">
+											<Content />
+										</div>
+
+										{item.tags.length > 0 && (
+											<div class="shuoshuo-tags">
+												{item.tags.map((tag) => (
+													<a
+														href={`/shuoshuo/?tag=${encodeURIComponent(tag)}`}
+														data-filter-tag={tag}
+													>
+														#{tag}
+													</a>
+												))}
+											</div>
+										)}
+									</article>
+								);
+							})}
+						</div>
+					</section>
+				))}
+			</div>
+		)}
+	</section>
+
+	<script is:inline>
+		(function () {
+			if (window.__shuoshuoTimelineCleanup) {
+				window.__shuoshuoTimelineCleanup();
+			}
+
+			var controller = new AbortController();
+			var signal = controller.signal;
+
+			function readFilters() {
+				var params = new URLSearchParams(window.location.search);
+				return {
+					tag: params.get("tag") || "",
+					month: params.get("month") || "",
+				};
+			}
+
+			function setFilter(type, value) {
+				var params = new URLSearchParams(window.location.search);
+				if (value) {
+					params.set(type, value);
+				} else {
+					params.delete(type);
+				}
+
+				var search = params.toString();
+				var nextUrl =
+					window.location.pathname +
+					(search ? "?" + search : "") +
+					window.location.hash;
+
+				window.history.replaceState(null, "", nextUrl);
+				applyFilters();
+			}
+
+			function resetFilters() {
+				window.history.replaceState(
+					null,
+					"",
+					window.location.pathname + window.location.hash,
+				);
+				applyFilters();
+			}
+
+			function itemHasTag(item, activeTag) {
+				if (!activeTag) return true;
+
+				try {
+					var tags = JSON.parse(item.getAttribute("data-tags") || "[]");
+					return tags.indexOf(activeTag) !== -1;
+				} catch (_error) {
+					return false;
+				}
+			}
+
+			function updateControls(filters, visibleCount) {
+				document
+					.querySelectorAll("[data-filter-control]")
+					.forEach(function (control) {
+						var type = control.getAttribute("data-filter-type");
+						var value = control.getAttribute("data-value") || "";
+						var activeValue = type === "month" ? filters.month : filters.tag;
+						control.classList.toggle("is-active", value === activeValue);
+					});
+
+				var badge = document.getElementById("shuoshuo-active-filter");
+				if (!badge) return;
+
+				var text = [];
+				if (filters.tag) text.push("#" + filters.tag);
+				if (filters.month) text.push(filters.month);
+
+				if (text.length === 0) {
+					badge.hidden = true;
+					return;
+				}
+
+				var label = badge.querySelector("span");
+				if (label) {
+					label.textContent = text.join(" / ") + " · " + visibleCount + " 条";
+				}
+				badge.hidden = false;
+			}
+
+			function applyFilters() {
+				var filters = readFilters();
+				var totalVisible = 0;
+
+				document.querySelectorAll(".shuoshuo-group").forEach(function (group) {
+					var visibleInGroup = 0;
+
+					group.querySelectorAll(".shuoshuo-item").forEach(function (item) {
+						var monthMatches =
+							!filters.month ||
+							item.getAttribute("data-month") === filters.month;
+						var tagMatches = itemHasTag(item, filters.tag);
+						var visible = monthMatches && tagMatches;
+
+						item.hidden = !visible;
+						if (visible) visibleInGroup += 1;
+					});
+
+					group.hidden = visibleInGroup === 0;
+
+					var count = group.querySelector(".shuoshuo-group-count");
+					if (count) count.textContent = visibleInGroup + " 条";
+
+					totalVisible += visibleInGroup;
+				});
+
+				var empty = document.getElementById("shuoshuo-empty");
+				if (empty) empty.hidden = totalVisible !== 0;
+
+				updateControls(filters, totalVisible);
+			}
+
+			function onClick(event) {
+				var target = event.target;
+				if (!target || !target.closest) return;
+
+				var reset = target.closest("[data-filter-reset]");
+				if (reset) {
+					event.preventDefault();
+					resetFilters();
+					return;
+				}
+
+				var tagLink = target.closest("[data-filter-tag]");
+				if (tagLink) {
+					event.preventDefault();
+					setFilter("tag", tagLink.getAttribute("data-filter-tag") || "");
+					return;
+				}
+
+				var control = target.closest("[data-filter-control]");
+				if (!control) return;
+
+				event.preventDefault();
+				setFilter(
+					control.getAttribute("data-filter-type") || "tag",
+					control.getAttribute("data-value") || "",
+				);
+			}
+
+			document.addEventListener("click", onClick, { signal: signal });
+			window.addEventListener("popstate", applyFilters, { signal: signal });
+			document.addEventListener("swup:contentReplaced", applyFilters, {
+				signal: signal,
+			});
+			document.addEventListener("swup:pageView", applyFilters, {
+				signal: signal,
+			});
+
+			window.__shuoshuoTimelineCleanup = function () {
+				controller.abort();
+			};
+
+			applyFilters();
+		})();
+	</script>
+</MainGridLayout>
+
+<style is:global>
+	.shuoshuo-shell {
+		max-width: 56rem;
+		margin: 0 auto;
+		padding: clamp(1rem, 2vw, 2rem) 0 4rem;
+	}
+
+	.shuoshuo-hero {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1.5rem;
+		margin: 0 0 2.25rem;
+		color: rgb(255 255 255 / 0.92);
+		text-shadow: 0 1px 18px rgb(0 0 0 / 0.22);
+	}
+
+	:root:not(.dark) .shuoshuo-hero {
+		color: rgb(0 0 0 / 0.78);
+		text-shadow: none;
+	}
+
+	.shuoshuo-title-wrap {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.shuoshuo-title-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.6rem;
+		height: 2.6rem;
+		color: var(--primary);
+		font-size: 2.15rem;
+	}
+
+	.shuoshuo-title-wrap h2 {
+		margin: 0;
+		font-size: clamp(2rem, 6vw, 3rem);
+		line-height: 1;
+		font-weight: 800;
+		letter-spacing: 0;
+	}
+
+	.shuoshuo-title-wrap p {
+		margin: 0.7rem 0 0;
+		font-size: 1rem;
+		color: currentColor;
+		opacity: 0.72;
+	}
+
+	.shuoshuo-meta-summary {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		gap: 0.6rem;
+		font-size: 0.84rem;
+		color: currentColor;
+		opacity: 0.78;
+	}
+
+	.shuoshuo-meta-summary span,
+	.shuoshuo-filter-label,
+	.shuoshuo-item-meta span,
+	.shuoshuo-active-filter,
+	.shuoshuo-active-filter button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+	}
+
+	.shuoshuo-toolbar {
+		display: flex;
+		flex-direction: column;
+		gap: 0.9rem;
+		margin-bottom: 2.1rem;
+		padding: 1rem;
+		border: 1px solid var(--line-divider);
+		background: color-mix(in oklch, var(--card-bg) 82%, transparent);
+		backdrop-filter: blur(16px);
+	}
+
+	.shuoshuo-filter-row {
+		display: grid;
+		grid-template-columns: 4rem minmax(0, 1fr);
+		gap: 0.75rem;
+		align-items: start;
+	}
+
+	.shuoshuo-filter-label {
+		min-height: 2rem;
+		color: rgb(0 0 0 / 0.55);
+		font-size: 0.85rem;
+		font-weight: 700;
+	}
+
+	:root.dark .shuoshuo-filter-label {
+		color: rgb(255 255 255 / 0.58);
+	}
+
+	.shuoshuo-filter-list {
+		display: flex;
+		gap: 0.5rem;
+		overflow-x: auto;
+		padding-bottom: 0.1rem;
+		scrollbar-width: none;
+	}
+
+	.shuoshuo-filter-list::-webkit-scrollbar {
+		display: none;
+	}
+
+	.shuoshuo-filter-pill,
+	.shuoshuo-tags a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2rem;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: var(--btn-plain-bg-hover);
+		color: rgb(0 0 0 / 0.62);
+		font-size: 0.82rem;
+		font-weight: 700;
+		white-space: nowrap;
+		transition: color 150ms ease, background-color 150ms ease,
+			transform 150ms ease;
+	}
+
+	:root.dark .shuoshuo-filter-pill,
+	:root.dark .shuoshuo-tags a {
+		color: rgb(255 255 255 / 0.64);
+	}
+
+	.shuoshuo-filter-pill:hover,
+	.shuoshuo-tags a:hover {
+		color: var(--primary);
+		transform: translateY(-1px);
+	}
+
+	.shuoshuo-filter-pill.is-active {
+		background: var(--primary);
+		color: white;
+	}
+
+	.shuoshuo-active-filter {
+		justify-content: space-between;
+		gap: 0.75rem;
+		border-top: 1px solid var(--line-divider);
+		padding-top: 0.85rem;
+		color: rgb(0 0 0 / 0.62);
+		font-size: 0.85rem;
+		font-weight: 700;
+	}
+
+	:root.dark .shuoshuo-active-filter {
+		color: rgb(255 255 255 / 0.62);
+	}
+
+	.shuoshuo-active-filter button {
+		border: 0;
+		border-radius: 999px;
+		background: var(--btn-regular-bg);
+		color: var(--btn-content);
+		padding: 0.35rem 0.65rem;
+		font: inherit;
+		cursor: pointer;
+	}
+
+	.shuoshuo-timeline {
+		display: flex;
+		flex-direction: column;
+		gap: 3.2rem;
+	}
+
+	.shuoshuo-group {
+		display: flex;
+		flex-direction: column;
+		gap: 1.15rem;
+	}
+
+	.shuoshuo-group-header {
+		display: grid;
+		grid-template-columns: max-content max-content minmax(0, 1fr);
+		align-items: center;
+		gap: 0.8rem;
+		color: rgb(255 255 255 / 0.82);
+	}
+
+	:root:not(.dark) .shuoshuo-group-header {
+		color: rgb(0 0 0 / 0.68);
+	}
+
+	.shuoshuo-group-header h3 {
+		margin: 0;
+		font-size: 1.18rem;
+		font-weight: 800;
+		letter-spacing: 0;
+	}
+
+	.shuoshuo-group-count {
+		font-size: 0.86rem;
+		font-weight: 700;
+		opacity: 0.68;
+	}
+
+	.shuoshuo-group-header i {
+		height: 1px;
+		background: color-mix(in srgb, currentColor 22%, transparent);
+	}
+
+	.shuoshuo-group-body {
+		display: flex;
+		flex-direction: column;
+		gap: 1.35rem;
+	}
+
+	.shuoshuo-item {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		padding: 1.2rem 1.35rem;
+		border: 1px solid rgb(255 255 255 / 0.06);
+		border-radius: var(--radius-large);
+		background:
+			linear-gradient(135deg, rgb(255 255 255 / 0.04), transparent 38%),
+			color-mix(in oklch, var(--card-bg) 76%, oklch(0.18 0.02 250) 24%);
+		box-shadow: 0 18px 42px rgb(0 0 0 / 0.14);
+		color: rgb(255 255 255 / 0.82);
+		backdrop-filter: blur(14px);
+		transition: transform 180ms ease, border-color 180ms ease,
+			box-shadow 180ms ease;
+	}
+
+	:root:not(.dark) .shuoshuo-item {
+		border-color: rgb(0 0 0 / 0.05);
+		background:
+			linear-gradient(135deg, rgb(255 255 255 / 0.72), transparent 42%),
+			color-mix(in oklch, var(--card-bg) 84%, var(--btn-plain-bg-hover) 16%);
+		box-shadow: 0 16px 36px rgb(0 0 0 / 0.08);
+		color: rgb(0 0 0 / 0.74);
+	}
+
+	.shuoshuo-item::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 3px;
+		border-radius: var(--radius-large) 0 0 var(--radius-large);
+		background: var(--primary);
+		opacity: 0;
+		transition: opacity 180ms ease;
+	}
+
+	.shuoshuo-item:hover {
+		transform: translateY(-2px);
+		border-color: color-mix(in srgb, var(--primary) 44%, transparent);
+		box-shadow: 0 22px 52px rgb(0 0 0 / 0.18);
+	}
+
+	.shuoshuo-item:hover::before {
+		opacity: 0.86;
+	}
+
+	.shuoshuo-item-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.65rem 1rem;
+		color: currentColor;
+		font-family: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Consolas,
+			monospace;
+		font-size: 0.82rem;
+		opacity: 0.62;
+	}
+
+	.shuoshuo-content {
+		color: currentColor;
+		font-size: 1rem;
+		line-height: 1.85;
+	}
+
+	.shuoshuo-shell .shuoshuo-content p {
+		margin: 0.25rem 0;
+	}
+
+	.shuoshuo-shell .shuoshuo-content > :first-child {
+		margin-top: 0;
+	}
+
+	.shuoshuo-shell .shuoshuo-content > :last-child {
+		margin-bottom: 0;
+	}
+
+	.shuoshuo-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		padding-top: 0.1rem;
+	}
+
+	.shuoshuo-tags a {
+		min-height: 1.75rem;
+		padding: 0.25rem 0.6rem;
+		background: color-mix(in srgb, var(--primary) 14%, transparent);
+		color: color-mix(in srgb, var(--primary) 86%, white 14%);
+		font-size: 0.76rem;
+	}
+
+	:root:not(.dark) .shuoshuo-tags a {
+		color: color-mix(in srgb, var(--primary) 78%, black 22%);
+	}
+
+	.shuoshuo-empty {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.55rem;
+		min-height: 7rem;
+		color: rgb(0 0 0 / 0.48);
+		font-weight: 700;
+	}
+
+	:root.dark .shuoshuo-empty {
+		color: rgb(255 255 255 / 0.5);
+	}
+
+	.shuoshuo-empty[hidden],
+	.shuoshuo-group[hidden],
+	.shuoshuo-item[hidden],
+	.shuoshuo-active-filter[hidden] {
+		display: none;
+	}
+
+	@media (max-width: 768px) {
+		.shuoshuo-shell {
+			padding: 0.5rem 0 3rem;
+		}
+
+		.shuoshuo-hero {
+			align-items: flex-start;
+			flex-direction: column;
+			margin-bottom: 1.4rem;
+		}
+
+		.shuoshuo-meta-summary {
+			justify-content: flex-start;
+		}
+
+		.shuoshuo-toolbar {
+			padding: 0.85rem;
+		}
+
+		.shuoshuo-filter-row {
+			grid-template-columns: 1fr;
+			gap: 0.45rem;
+		}
+
+		.shuoshuo-group-header {
+			gap: 0.55rem;
+		}
+
+		.shuoshuo-item {
+			padding: 1rem;
+		}
+	}
+</style>

@@ -32,6 +32,12 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			LinkPresets.Tags,
 		],
 	});
+	//说说
+	links.push({
+		name: "说说",
+		url: "/shuoshuo/",
+		icon: "material-symbols:forum",
+	});
 
 	// 友链
 	links.push(LinkPresets.Friends);
@@ -49,7 +55,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			LinkPresets.Gallery,
 
 			// 备忘录
-			LinkPresets.Memo,
+			// LinkPresets.Memo,
 		],
 	});
 
@@ -164,12 +170,6 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		name: "关于我",
 		url: "/about/",
 		icon: "material-symbols:person",
-	},
-	Memo: {
-		name: "备忘录",
-		url: "/memo/",
-		icon: "material-symbols:sticky-note-2",
-		pageKey: "memo",
 	},
 	Gallery: {
 		name: "相册",
