@@ -1,18 +1,18 @@
 ---
 export interface Props {
-	text: string | string[];
-	speed?: number;
-	deleteSpeed?: number;
-	pauseTime?: number;
-	class?: string;
+  text: string | string[];
+  speed?: number;
+  deleteSpeed?: number;
+  pauseTime?: number;
+  class?: string;
 }
 
 const {
-	text,
-	speed = 100,
-	deleteSpeed = 50,
-	pauseTime = 2000,
-	class: className = "",
+  text,
+  speed = 100,
+  deleteSpeed = 50,
+  pauseTime = 2000,
+  class: className = "",
 } = Astro.props;
 const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 ---
@@ -97,7 +97,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 
           this.timeoutId = window.setTimeout(
             () => this.type(),
-            this.deleteSpeed
+            this.deleteSpeed,
           );
         } else {
           // 删除完成，切换到下一条文本
@@ -120,7 +120,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
             this.isDeleting = true;
             this.timeoutId = window.setTimeout(
               () => this.type(),
-              this.pauseTime
+              this.pauseTime,
             );
           }
           // 如果只有一条文本，保持显示不删除
@@ -135,16 +135,19 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
     }
 
     private segmentText(text: string): string[] {
-      const segmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
-      return Array.from(segmenter.segment(text), s => s.segment);
+      const segmenter = new Intl.Segmenter(undefined, {
+        granularity: "grapheme",
+      });
+      return Array.from(segmenter.segment(text), (s) => s.segment);
     }
-
   }
 
   function initTypewriterElements() {
     const typewriterElements = document.querySelectorAll(".typewriter");
     typewriterElements.forEach((element) => {
-      const el = element as HTMLElement & { __typewriterInstance?: TypewriterEffect };
+      const el = element as HTMLElement & {
+        __typewriterInstance?: TypewriterEffect;
+      };
       if (el.__typewriterInstance) {
         el.__typewriterInstance.destroy();
       }
