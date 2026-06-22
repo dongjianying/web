@@ -165,37 +165,39 @@ content:
             type: rich-text
             required: true
 
-      # # 说说 (collection)
-      # - name: shuoshuo
-      #   label: 💬 说说
-      #   type: collection
-      #   path: src/content/shuoshuo
-      #   format: yaml-frontmatter
-      #   fields:
-      #     - name: content
-      #       label: 内容
-      #       type: text
-      #       required: true
-
-      #     - name: published
-      #       label: 发布时间
-      #       type: date
-      #       required: true
-      #       options:
-      #         time: false
-      #         format: yyyy-MM-dd
-
-      #     - name: updated
-      #       label: 更新时间
-      #       type: date
-      #       options:
-      #         time: false
-      #         format: yyyy-MM-dd
-
-      #     - name: draft
-      #       label: 草稿
-      #       type: boolean
-      #       default: false
+      # 说说 (collection)
+      - name: shuoshuo
+        label: 💬 说说
+        type: collection
+        path: src/content/shuoshuo
+        format: yaml-frontmatter
+        filename:
+          template: "{primary}.md"
+          field: create
+        view:
+          primary: content
+          fields: [content, published, draft]
+          sort: ["published desc"]
+          search: [content]
+          default:
+            sort: published
+            order: desc
+        fields:
+          - name: content
+            label: 内容
+            type: string
+            required: true
+          - name: published
+            label: 发布时间
+            type: date
+            required: true
+            options:
+              time: false
+              format: yyyy-MM-dd
+          - name: draft
+            label: 草稿
+            type: boolean
+            default: false
 
       # 关于页面
       - name: about
