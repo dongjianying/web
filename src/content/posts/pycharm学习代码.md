@@ -3,7 +3,7 @@ title: pycharm学习笔记
 published: 2026-06-22
 pinned: false
 description: 使用pycharm学到的知识
-tags: [Markdown]
+tags: [python]
 category: 学习笔记
 draft: false
 ---
