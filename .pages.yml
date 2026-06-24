@@ -111,6 +111,7 @@ content:
                 - { label: 计算机, value: 计算机 }
                 - { label: 高等数学, value: 高等数学 }
                 - { label: 英语笔记, value: 英语笔记 }
+                - { label: 感想, value: 感想 }
 
           - name: category
             label: 分类
