@@ -12,7 +12,7 @@ export const profileConfig: ProfileConfig = {
 	name: "董健颖",
 
 	// 个人签名
-	bio: "Hello, 我是董健颖.很高兴认识你",
+	bio: "功夫=方法+时间+试验",
 
 	// 链接配置
 	// 已经预装的图标集：fa7-brands，fa7-regular，fa7-solid，material-symbols，simple-icons

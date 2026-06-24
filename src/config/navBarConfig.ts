@@ -38,7 +38,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		url: "/shuoshuo/",
 		icon: "material-symbols:forum",
 	});
-
 	// 友链
 	links.push(LinkPresets.Friends);
 
