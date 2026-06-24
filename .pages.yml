@@ -112,6 +112,8 @@ content:
                 - { label: 高等数学, value: 高等数学 }
                 - { label: 英语笔记, value: 英语笔记 }
                 - { label: 感想, value: 感想 }
+                - { label: 投资, value: 投资 }
+                - { label: 合成生物学, value: 合成生物学 }
 
           - name: category
             label: 分类
