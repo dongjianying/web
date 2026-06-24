@@ -98,12 +98,19 @@ content:
                 - { label: 演示, value: 演示 }
                 - { label: 示例, value: 示例 }
                 - { label: Markdown, value: Markdown }
-                - { label: Firefly, value: Firefly }
-                - { label: 博客, value: 博客 }
                 - { label: 主题, value: 主题 }
                 - { label: 教程, value: 教程 }
                 - { label: JavaScript, value: JavaScript }
                 - { label: Astro, value: Astro }
+                - { label: React, value: React }
+                - { label: Vue, value: Vue }
+                - { label: Python, value: Python }
+                - { label: 命运, value: 命运 }
+                - { label: 技术笔记, value: 技术笔记 }
+                - { label: 生物化学, value: 生物化学 }
+                - { label: 计算机, value: 计算机 }
+                - { label: 高等数学, value: 高等数学 }
+                - { label: 英语笔记, value: 英语笔记 }
 
           - name: category
             label: 分类
