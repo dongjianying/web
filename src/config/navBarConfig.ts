@@ -160,7 +160,7 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		pageKey: "sponsor",
 	},
 	Schedule: {
-		name: "周日程表",
+		name: "日程表",
 		url: "/schedule/",
 		icon: "material-symbols:event",
 		pageKey: "schedule",
