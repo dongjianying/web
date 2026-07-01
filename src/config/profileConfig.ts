@@ -9,10 +9,11 @@ export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/2.jpg",
 
 	// 名字
-	name: "董健颖",
+	name: "君则",
 
 	// 个人签名
-	bio: "功夫=方法+时间+试验",
+	bio: "功夫=方法+时间+试验,只要呼吸就好",
+	
 
 	// 链接配置
 	// 已经预装的图标集：fa7-brands，fa7-regular，fa7-solid，material-symbols，simple-icons

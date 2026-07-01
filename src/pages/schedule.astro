@@ -1,0 +1,538 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Navbar from "@components/layout/Navbar.astro";
+
+// ============================================================================
+// 数据区：日程数据统一写在这里，后续只需要改这个数组即可
+// ============================================================================
+
+type ScheduleItem = {
+  dayIndex: number | number[];
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+  accent: string;
+};
+
+const weekDays = [
+  { label: "周一", short: "一" },
+  { label: "周二", short: "二" },
+  { label: "周三", short: "三" },
+  { label: "周四", short: "四" },
+  { label: "周五", short: "五" },
+  { label: "周六", short: "六" },
+  { label: "周日", short: "日" },
+];
+
+const timeMarks = [8, 10, 12, 14, 16, 18, 20, 22];
+
+// 日程卡片文本修改入口：改这里的 title / start / end / description 就会同步到表格里
+// dayIndex 支持单个数字，也支持数组，例如 [0, 1, 2] 表示周一到周三都显示同一条内容
+const scheduleItems: ScheduleItem[] = [
+  {
+    dayIndex: 0,
+    title: "自由时间",
+    start: "08:00",
+    end: "22:00",
+    description: "今天图书馆只开半天，大概率是在家里玩耍了",
+    accent: "#4f7cff",
+  },
+  {
+    dayIndex: [1, 2, 3, 4, 5, 6],
+    title: "英语学习",
+    start: "09:00",
+    end: "11:00",
+    description: "集中完成考研英语专项练习。",
+    accent: "#3c9df2",
+  },
+  {
+    dayIndex: [1, 2, 3, 4, 5, 6],
+    title: "数学学习",
+    start: "13:00",
+    end: "16:00",
+    description: "进行数学题目练习，巩固基础知识。",
+    accent: "#00e09e",
+  },
+  {
+    dayIndex: [1, 2, 3, 4, 5, 6],
+    title: "专业课学习",
+    start: "16:00",
+    end: "17:30",
+    description: "进行专业课程学习，加深理解。",
+    accent: "#e29191",
+  },
+  {
+    dayIndex: [1, 2, 3, 4, 5, 6],
+    title: "计算机学习",
+    start: "18:00",
+    end: "20:00",
+    description: "进行计算机科学相关学习，提升编程技能。",
+    accent: "#4c8dae",
+  },
+  {
+    dayIndex: [1, 2, 3, 4, 5, 6],
+    title: "课外学习",
+    start: "20:00",
+    end: "22:00",
+    description: "进行课外阅读和兴趣学习。",
+    accent: "#003371",
+  },
+];
+
+const parseTime = (value: string) => {
+  const [hourText, minuteText] = value.split(":");
+  return Number(hourText) * 60 + Number(minuteText);
+};
+
+const normalizeDayIndexes = (dayIndex: number | number[]) =>
+  Array.isArray(dayIndex) ? dayIndex : [dayIndex];
+
+const scheduleByDay = weekDays.map((_, dayIndex) =>
+  scheduleItems
+    .filter((item) => normalizeDayIndexes(item.dayIndex).includes(dayIndex))
+    .sort((left, right) => parseTime(left.start) - parseTime(right.start)),
+);
+
+const slotHeight = 3;
+
+const minutesToRow = (value: string) => {
+  const baseMinutes = 8 * 60;
+  return (parseTime(value) - baseMinutes) / 30 + 1;
+};
+
+const gridStyle = `--slot-height:${slotHeight}rem;`;
+
+const itemStyle = (start: string, end: string, accent: string) => {
+  const rowStart = minutesToRow(start);
+  const rowEnd = minutesToRow(end);
+  return `grid-row:${rowStart} / ${rowEnd};--accent:${accent};`;
+};
+
+const totalRows = (22 * 60 - 8 * 60) / 30;
+
+const title = "我的日程表";
+const description = "高效规划 平衡生活";
+---
+
+<Layout title={title} description={description}>
+  <div
+    id="top-row"
+    class="z-50 pointer-events-none relative transition-all duration-700 mx-auto h-18 fixed top-0 left-0 right-0 z-80 w-full xl:w-[92vw] max-w-(--page-width) px-0 md:px-4"
+  >
+    <div id="navbar-wrapper" class="pointer-events-auto transition-all">
+      <Navbar />
+    </div>
+  </div>
+
+  <main
+    class="schedule-page-wrap px-4 pt-20 pb-6 sm:px-6 sm:pt-24 lg:px-8 lg:pt-28 lg:pb-8"
+  >
+    <div
+      class="schedule-page card-base w-full overflow-hidden rounded-(--radius-large)"
+    >
+      <div class="schedule-shell px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+        <!-- 页面头部：标题、说明、当天提示 -->
+        <header class="schedule-header">
+          <div class="schedule-title-block">
+            <p class="schedule-eyebrow">周视图日程</p>
+            <h1 class="schedule-title">{title}</h1>
+            <p class="schedule-description">{description}</p>
+          </div>
+
+          <div class="schedule-badge">
+            <span class="schedule-badge__label">今天</span>
+            <span class="schedule-badge__value" data-today-text>自动识别中</span
+            >
+          </div>
+        </header>
+
+        <!-- 主体结构：仅保留周视图，不显示左侧时间栏 -->
+        <div class="schedule-board-wrap">
+          <div class="schedule-board" style={gridStyle} data-schedule-board>
+            <div class="schedule-grid-shell">
+              <div class="schedule-week-head">
+                {
+                  weekDays.map((day, dayIndex) => (
+                    <div
+                      class="schedule-week-head__cell"
+                      data-day-index={dayIndex}
+                    >
+                      <span class="schedule-week-head__label">{day.label}</span>
+                      <span class="schedule-week-head__sub">{day.short}</span>
+                    </div>
+                  ))
+                }
+              </div>
+
+              <div class="schedule-grid">
+                {
+                  weekDays.map((_, dayIndex) => (
+                    <div class="schedule-day-column" data-day-index={dayIndex}>
+                      <div
+                        class="schedule-day-column__overlay"
+                        aria-hidden="true"
+                      />
+                      {scheduleByDay[dayIndex].map((item) => {
+                        return (
+                          <article
+                            class="schedule-item"
+                            style={itemStyle(item.start, item.end, item.accent)}
+                          >
+                            <h3 class="schedule-item__title">{item.title}</h3>
+                            <div class="schedule-item__time">
+                              {item.start} - {item.end}
+                            </div>
+                            <p class="schedule-item__desc">
+                              {item.description}
+                            </p>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 备注区：给后续几天安排预留文本空间 -->
+        <section class="schedule-notes card-base mt-6 rounded-2xl">
+          <div class="schedule-notes__head">
+            <div>
+              <p class="schedule-eyebrow">备注区</p>
+              <h2 class="schedule-notes__title">未来要做什么</h2>
+            </div>
+            <p class="schedule-notes__hint">
+              请大家认真检举我！😊
+            </p>
+          </div>
+
+          <!-- 备注文本修改入口：这里是多行文本输入区，直接回车换行即可；如果要改示例文案，也改这个 placeholder -->
+          <textarea
+            class="schedule-notes__editor"
+            rows="8"
+            placeholder={`
+上述时间为大概时间安排，具体时间可根据实际情况进行调整。
+请见到我聊天，游戏，不务正业的时候，提醒我专注学习。
+`}
+            aria-label="日程备注文本空间"></textarea>
+        </section>
+      </div>
+    </div>
+
+    <script is:inline>
+      const weekDayNames = [
+        "周一",
+        "周二",
+        "周三",
+        "周四",
+        "周五",
+        "周六",
+        "周日",
+      ];
+      const todayIndex = (new Date().getDay() + 6) % 7;
+      const todayLabel = `${weekDayNames[todayIndex]} · ${new Intl.DateTimeFormat(
+        "zh-CN",
+        {
+          month: "numeric",
+          day: "numeric",
+          weekday: "short",
+        },
+      ).format(new Date())}`;
+
+      const root = document.querySelector("[data-schedule-board]");
+      if (root) {
+        const highlightedCells = root.querySelectorAll(
+          `[data-day-index="${todayIndex}"]`,
+        );
+        highlightedCells.forEach((cell) => {
+          cell.classList.add("is-today");
+        });
+      }
+
+      const todayText = document.querySelector("[data-today-text]");
+      if (todayText) {
+        todayText.textContent = todayLabel;
+      }
+    </script>
+  </main>
+</Layout>
+
+<style>
+  .schedule-page {
+    background: color-mix(in srgb, var(--card-bg, var(--bg)) 96%, transparent);
+    color: #000;
+  }
+
+  .schedule-page-wrap {
+    max-width: 100rem;
+    margin: 0 auto;
+  }
+
+  .schedule-shell {
+    width: 100%;
+  }
+
+  .schedule-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .schedule-title-block {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .schedule-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #000;
+  }
+
+  .schedule-title {
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #000;
+  }
+
+  .schedule-description {
+    font-size: 0.98rem;
+    color: #000;
+  }
+
+  .schedule-badge {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+  }
+
+  .schedule-badge__label {
+    font-size: 0.75rem;
+    color: #000;
+  }
+
+  .schedule-badge__value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .schedule-board-wrap {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .schedule-board {
+    position: relative;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .schedule-grid-shell {
+    min-width: 0;
+  }
+
+  .schedule-week-head {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(7.2rem, 1fr));
+    gap: 0.25rem;
+    margin-bottom: 0.4rem;
+    min-height: 4.9rem;
+  }
+
+  .schedule-week-head__label {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .schedule-week-head__sub {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: #000;
+  }
+
+  .schedule-week-head__cell.is-today {
+    background: color-mix(in srgb, var(--primary) 14%, var(--bg));
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 14%, transparent);
+  }
+
+  .schedule-week-head__cell {
+    text-align: center;
+  }
+
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(7.2rem, 1fr));
+    gap: 0.25rem;
+  }
+
+  .schedule-day-column {
+    position: relative;
+    display: grid;
+    grid-template-rows: repeat(28, var(--slot-height));
+    min-height: calc(var(--slot-height) * 28);
+    border-radius: 1rem;
+    transition: background 0.18s ease;
+    background-image: linear-gradient(
+      to bottom,
+      transparent calc(var(--slot-height) - 1px),
+      color-mix(in srgb, var(--line-color) 68%, transparent) 1px
+    );
+    background-size: 100% var(--slot-height);
+  }
+
+  .schedule-day-column__overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    pointer-events: none;
+  }
+
+  .schedule-day-column.is-today .schedule-day-column__overlay {
+    background: color-mix(in srgb, var(--primary) 7%, transparent);
+  }
+
+  .schedule-item {
+    grid-row: auto;
+    align-self: stretch;
+    position: relative;
+    margin: 0.12rem 0.35rem;
+    min-height: 2.5rem;
+    padding: 0.75rem 0.8rem;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--accent) 16%, white);
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    text-align: center;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
+    overflow: hidden;
+  }
+
+  .schedule-item::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--accent);
+  }
+
+  .schedule-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.14);
+  }
+
+  .schedule-item__title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #000;
+  }
+
+  .schedule-item__time {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: #000;
+  }
+
+  .schedule-item__desc {
+    margin-top: 0.45rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #000;
+  }
+
+  .schedule-notes {
+    padding: 1.25rem;
+    background: color-mix(in srgb, var(--card-bg, var(--bg)) 96%, transparent);
+    border: 1px solid color-mix(in srgb, var(--line-color) 72%, transparent);
+  }
+
+  .schedule-notes__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .schedule-notes__title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #000;
+  }
+
+  .schedule-notes__hint {
+    max-width: 34rem;
+    font-size: 0.92rem;
+    color: #000;
+  }
+
+  .schedule-notes__editor {
+    width: 100%;
+    min-height: 10rem;
+    padding: 1rem 1rem 1.1rem;
+    border-radius: 1rem;
+    border: 1px solid color-mix(in srgb, var(--line-color) 75%, transparent);
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 2.1rem,
+      color-mix(in srgb, var(--line-color) 42%, transparent) 2.1rem,
+      color-mix(in srgb, var(--line-color) 42%, transparent) 2.2rem
+    );
+    color: #000;
+    font: inherit;
+    line-height: 2.1rem;
+    resize: vertical;
+    outline: none;
+  }
+
+  .schedule-notes__editor::placeholder {
+    color: #000;
+  }
+
+  .schedule-notes__editor:focus {
+    border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+
+  @media (max-width: 900px) {
+    .schedule-week-head,
+    .schedule-grid {
+      grid-template-columns: repeat(7, minmax(6.5rem, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .schedule-header {
+      align-items: flex-start;
+    }
+
+    .schedule-badge {
+      width: 100%;
+      border-radius: 1rem;
+    }
+
+    .schedule-week-head__label {
+      font-size: 0.95rem;
+    }
+  }
+</style>

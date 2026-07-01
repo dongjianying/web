@@ -52,9 +52,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			// 相册
 			LinkPresets.Gallery,
-
-			// 备忘录
-			// LinkPresets.Memo,
 		],
 	});
 
@@ -66,6 +63,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			// 打赏
 			LinkPresets.Sponsor,
+
+			// 周日程表
+			LinkPresets.Schedule,
 
 			// 关于页面
 			LinkPresets.About,
@@ -158,6 +158,12 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/sponsor/",
 		icon: "material-symbols:favorite",
 		pageKey: "sponsor",
+	},
+	Schedule: {
+		name: "周日程表",
+		url: "/schedule/",
+		icon: "material-symbols:event",
+		pageKey: "schedule",
 	},
 	Guestbook: {
 		name: "留言",

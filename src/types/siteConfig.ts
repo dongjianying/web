@@ -84,6 +84,7 @@ export type SiteConfig = {
 		guestbook: boolean; // 留言板页面开关
 		gallery: boolean; // 相册页面开关
 		memo: boolean; // 备忘录页面开关
+		schedule: boolean; // 周日程表页面开关
 	};
 
 	// 分类导航栏开关

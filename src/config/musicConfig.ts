@@ -49,6 +49,12 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	// lrc: "[00:00.00]歌词内容...",
 	local: {
 		playlist: [
+			{name: "预感你会回来",
+				artist: "GooGoo",
+				url: "/assets/music/GooGoo - 预感你会回来.mp3",
+				cover: "/assets/music/cover/1.jpg",
+				lrc: "",
+			},
 			{
 				name: "Changes (空灵鼓DJ)",
 				artist: "FTNwICcj",
