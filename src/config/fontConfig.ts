@@ -90,18 +90,19 @@ export const fontConfig: FontSelectionConfig = {
 	// 是否预加载字体文件
 	preload: true,
 	// 当前选择的字体，支持多个字体组合
-	selected: ["Inter"],
+	// 必须和上方 name 字段完全一致，大小写、空格都不能差
+	selected: ["--font-greatvibes"],
 
 	// 各区域独立字体设置（填写上方 fonts 中的 cssVariable，留空则使用全局 selected 字体）
 	// 例如：bannerTitleFont: "--font-inter", 表示主页横幅主标题使用 Inter 字体
 	// 主页横幅主标题字体
-	bannerTitleFont: "--font-zen-maru-gothic",
+	bannerTitleFont: "--font-greatvibes",
 	// 主页横幅副标题字体
-	bannerSubtitleFont: "--font-inter",
+	bannerSubtitleFont: "--font-greatvibes",
 	// 导航栏标题字体
-	navbarTitleFont: "",
+	navbarTitleFont: "--font-greatvibes",
 	// 代码块字体（用于代码高亮和等宽字体场景）
-	codeFont: "--font-jetbrains-mono",
+	codeFont: "",
 
 	// 本地字体子集化配置（构建时由 scripts/subset-fonts.ts 处理）
 	// key 为 fonts 数组中对应的 cssVariable，value 为子集化选项

@@ -157,8 +157,6 @@ export const siteConfig: SiteConfig = {
 		generateOgImages: false,
 	},
 
-<<<<<<< HEAD
-=======
 	// bangumi配置
 	bangumi: {
 		// Bangumi用户ID
@@ -193,7 +191,6 @@ export const siteConfig: SiteConfig = {
 		// },
 	},
 
->>>>>>> upstream/master
 	// 分页配置
 	pagination: {
 		// 每页显示的文章数量
