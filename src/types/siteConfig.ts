@@ -40,6 +40,7 @@ export type SiteConfig = {
 		defaultMode?: LIGHT_DARK_MODE; // 默认模式：浅色、深色或跟随系统
 	};
 
+
 	// 页面整体宽度（单位：rem）
 	pageWidth?: number;
 
@@ -75,6 +76,17 @@ export type SiteConfig = {
 		menuAlign?: "left" | "center"; // 导航菜单对齐方式（仅桌面端菜单）
 		followTheme?: boolean; // 导航栏图标和标题是否跟随主题色
 		stickyNavbar?: boolean; // 导航栏是否固定在顶部始终可见
+		backgroundWallpaper?: {
+			position?: string;
+			carousel?: Record<string, any>;
+			overlay?: boolean;},
+		font?: {
+			preload?: boolean;
+		},
+// 页面开关配置
+pages: {
+	// ...原有代码
+},
 	};
 
 	// 页面开关配置
