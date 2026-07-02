@@ -2,9 +2,9 @@
 import { getLqipProps } from "@/utils/lqip-utils";
 
 interface Props {
-	src: string;
-	albumId: string;
-	alt?: string;
+  src: string;
+  albumId: string;
+  alt?: string;
 }
 
 const { src, albumId, alt = "" } = Astro.props;
@@ -20,7 +20,12 @@ const lqipProps = getLqipProps(src, undefined, true);
     data-type="image"
     class="block rounded-xl overflow-hidden relative group cursor-pointer"
   >
-    <div class="lqip-placeholder absolute inset-0 pointer-events-none" style={lqipProps.style} aria-hidden="true"></div>
+    <div
+      class="lqip-placeholder absolute inset-0 pointer-events-none"
+      style={lqipProps.style}
+      aria-hidden="true"
+    >
+    </div>
     <img
       src={src}
       alt={alt}

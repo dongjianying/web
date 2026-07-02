@@ -106,8 +106,6 @@ export const siteConfig: SiteConfig = {
 		guestbook: true,
 		// 相册页面开关
 		gallery: true,
-		// 备忘录页面开关
-		memo: false,
 		// 周日程表页面开关
 		schedule: true,
 	},
