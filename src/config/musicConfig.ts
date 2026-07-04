@@ -53,7 +53,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				artist: "GooGoo",
 				url: "/assets/music/GooGoo - 预感你会回来.mp3",
 				cover: "/assets/music/cover/1.jpg",
-				lrc: "",
+				lrc: "/assets/music/《预感你会回来》歌词.lrc",
 			},
 			{
 				name: "Changes (空灵鼓DJ)",

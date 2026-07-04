@@ -1,10 +1,10 @@
 ---
-title: 代码块示例
+title: markdown代码块示例
 published: 1970-01-03
 pinned: false
 description: 在中使用表达性代码的代码块在 Markdown 中的外观。
-tags: [Markdown]
-category: 文章示例
+tags: [代码笔记]
+category: 代码笔记
 draft: false
 ---
 

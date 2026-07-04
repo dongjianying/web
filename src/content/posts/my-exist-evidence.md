@@ -4,8 +4,8 @@ published: 2026-06-28
 updated: 2026-06-28
 draft: false
 description: 这是我的经历记录
-tags: [经历]
-category: 经历
+tags: [随笔]
+category: 随笔
 pinned: true
 comment: true
 ---
