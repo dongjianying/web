@@ -1,22 +1,30 @@
 ---
-title: 草稿示例
-published: 1970-01-01
-tags: [Markdown, 博客, 演示, 生物化学, 高等数学, 技术笔记, 英语笔记]
-category: 文章示例
-draft: true
----
-
-# 这篇文章是草稿
-
-这篇文章目前处于草稿状态，尚未发布。因此，它不会对普通读者可见。内容仍在进行中，可能需要进一步编辑和审查。
-
-当文章准备发布时，您可以在 Frontmatter 中将 "draft" 字段更新为 "false"：
-
-```markdown
----
-title: 草稿示例
-published: 2024-01-11T04:40:26.381Z
-tags: [Markdown, 博客, 演示]
-category: 示例
+title: 草稿
+published: 2026-07-05
+updated: 2026-07-05
 draft: false
+description: 这个是示例文章
+tags: [示例]
+category: 示例
+pinned: false
+comment: true
 ---
+
+# -一级标题
+
+- 点序号
+
+1. 数字序号
+
+tab 代码组块
+
+\*\* 粗体
+
+\* 斜体
+
+\` 代码 
+
+## -二级标题
+
+###-三级标题
+####-四级标题
