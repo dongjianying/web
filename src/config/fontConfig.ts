@@ -81,6 +81,19 @@ export const fontsList: FontDefinition[] = [
 		},
 		fallbacks: ["sans-serif"],
 	},
+	{
+		name: "LXGW WenKai TC",
+		cssVariable: "--font-lxgw-wenkai-tc",
+		provider: "local",
+		options: {
+			variants: [
+				{
+					src: ["./public/assets/fonts/lxgw-wenkai-tc-52-400-normal.ttf"],
+				},
+			],
+		},
+		fallbacks: ["sans-serif"],
+	},
 ];
 
 // ─── 字体选择与区域覆盖 ─────────────────────────────────────
@@ -89,16 +102,16 @@ export const fontConfig: FontSelectionConfig = {
 	enable: true,
 	// 当前选择的字体，支持多个字体组合
 	// 必须和上方 name 字段完全一致，大小写、空格都不能差
-	selected: ["--font-greatvibes"],
+	selected: ["--font-zen-maru-gothic"],
 
 	// 各区域独立字体设置（填写上方 fonts 中的 cssVariable，留空则使用全局 selected 字体）
 	// 例如：bannerTitleFont: "--font-inter", 表示主页横幅主标题使用 Inter 字体
 	// 主页横幅主标题字体
-	bannerTitleFont: "--font-greatvibes",
+	bannerTitleFont: "--font-zen-maru-gothic",
 	// 主页横幅副标题字体
-	bannerSubtitleFont: "--font-greatvibes",
+	bannerSubtitleFont: "--font-zen-maru-gothic",
 	// 导航栏标题字体
-	navbarTitleFont: "--font-greatvibes",
+	navbarTitleFont: "--font-zen-maru-gothic",
 	// 代码块字体（用于代码高亮和等宽字体场景）
 	codeFont: "",
 
