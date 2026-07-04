@@ -76,17 +76,6 @@ export type SiteConfig = {
 		menuAlign?: "left" | "center"; // 导航菜单对齐方式（仅桌面端菜单）
 		followTheme?: boolean; // 导航栏图标和标题是否跟随主题色
 		stickyNavbar?: boolean; // 导航栏是否固定在顶部始终可见
-		backgroundWallpaper?: {
-			position?: string;
-			carousel?: Record<string, any>;
-			overlay?: boolean;},
-		font?: {
-			preload?: boolean;
-		},
-// 页面开关配置
-pages: {
-	// ...原有代码
-},
 	};
 
 	// 页面开关配置
@@ -95,10 +84,9 @@ pages: {
 		sponsor: boolean; // 打赏页面开关
 		guestbook: boolean; // 留言板页面开关
 		gallery: boolean; // 相册页面开关
-		memo: boolean; // 备忘录页面开关
 		schedule: boolean; // 周日程表页面开关
 	};
-	
+
 
 	// 分类导航栏开关
 	categoryBar?: boolean;
@@ -142,6 +130,17 @@ pages: {
 	// 分页配置
 	pagination: {
 		postsPerPage: number; // 每页显示的文章数量
+	};
+
+	// 追番配置（Bilibili + TMDB）
+	anime?: {
+		bilibili?: {
+			uid: string; // Bilibili 用户 UID
+		};
+		tmdb?: {
+			apiKey: string; // TMDB API 密钥
+			listId: string; // TMDB 列表 ID
+		};
 	};
 
 	// 图片优化配置

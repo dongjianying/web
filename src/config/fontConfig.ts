@@ -87,8 +87,6 @@ export const fontsList: FontDefinition[] = [
 export const fontConfig: FontSelectionConfig = {
 	// 是否启用自定义字体功能
 	enable: true,
-	// 是否预加载字体文件
-	preload: true,
 	// 当前选择的字体，支持多个字体组合
 	// 必须和上方 name 字段完全一致，大小写、空格都不能差
 	selected: ["--font-greatvibes"],

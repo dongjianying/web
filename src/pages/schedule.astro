@@ -25,7 +25,7 @@ const weekDays = [
   { label: "周日", short: "日" },
 ];
 
-const timeMarks = [8, 10, 12, 14, 16, 18, 20, 22];
+// const timeMarks = [8, 10, 12, 14, 16, 18, 20, 22];
 
 // 日程卡片文本修改入口：改这里的 title / start / end / description 就会同步到表格里
 // dayIndex 支持单个数字，也支持数组，例如 [0, 1, 2] 表示周一到周三都显示同一条内容
@@ -88,11 +88,12 @@ const parseTime = (value: string) => {
 const normalizeDayIndexes = (dayIndex: number | number[]) =>
   Array.isArray(dayIndex) ? dayIndex : [dayIndex];
 
-const scheduleByDay = weekDays.map((_, dayIndex) =>
-  scheduleItems
-    .filter((item) => normalizeDayIndexes(item.dayIndex).includes(dayIndex))
-    .sort((left, right) => parseTime(left.start) - parseTime(right.start)),
-);
+// scheduleByDay 已不再使用，改为统一网格布局渲染
+// const scheduleByDay = weekDays.map((_, dayIndex) =>
+//   scheduleItems
+//     .filter((item) => normalizeDayIndexes(item.dayIndex).includes(dayIndex))
+//     .sort((left, right) => parseTime(left.start) - parseTime(right.start)),
+// );
 
 const slotHeight = 3;
 
@@ -103,13 +104,22 @@ const minutesToRow = (value: string) => {
 
 const gridStyle = `--slot-height:${slotHeight}rem;`;
 
-const itemStyle = (start: string, end: string, accent: string) => {
-  const rowStart = minutesToRow(start);
-  const rowEnd = minutesToRow(end);
-  return `grid-row:${rowStart} / ${rowEnd};--accent:${accent};`;
+const itemStyle = (item: ScheduleItem) => {
+  const rowStart = minutesToRow(item.start);
+  const rowEnd = minutesToRow(item.end);
+  const days = normalizeDayIndexes(item.dayIndex);
+  const colStart = Math.min(...days) + 1;
+  const colEnd = Math.max(...days) + 2;
+  return `grid-row:${rowStart} / ${rowEnd};grid-column:${colStart} / ${colEnd};--accent:${item.accent};`;
 };
 
-const totalRows = (22 * 60 - 8 * 60) / 30;
+// 去重后的日程块列表（避免多天日程重复渲染）
+const uniqueItems = scheduleItems.map((item) => ({
+  ...item,
+  _days: normalizeDayIndexes(item.dayIndex),
+}));
+
+// const totalRows = (22 * 60 - 8 * 60) / 30;
 
 const title = "我的日程表";
 const description = "高效规划 平衡生活";
@@ -173,25 +183,23 @@ const description = "高效规划 平衡生活";
                         class="schedule-day-column__overlay"
                         aria-hidden="true"
                       />
-                      {scheduleByDay[dayIndex].map((item) => {
-                        return (
-                          <article
-                            class="schedule-item"
-                            style={itemStyle(item.start, item.end, item.accent)}
-                          >
-                            <h3 class="schedule-item__title">{item.title}</h3>
-                            <div class="schedule-item__time">
-                              {item.start} - {item.end}
-                            </div>
-                            <p class="schedule-item__desc">
-                              {item.description}
-                            </p>
-                          </article>
-                        );
-                      })}
                     </div>
                   ))
                 }
+                {uniqueItems.map((item) => (
+                  <article
+                    class="schedule-item"
+                    style={itemStyle(item)}
+                  >
+                    <h3 class="schedule-item__title">{item.title}</h3>
+                    <div class="schedule-item__time">
+                      {item.start} - {item.end}
+                    </div>
+                    <p class="schedule-item__desc">
+                      {item.description}
+                    </p>
+                  </article>
+                ))}
               </div>
             </div>
           </div>
@@ -377,13 +385,14 @@ const description = "高效规划 平衡生活";
   .schedule-grid {
     display: grid;
     grid-template-columns: repeat(7, minmax(7.2rem, 1fr));
+    grid-template-rows: repeat(28, var(--slot-height));
     gap: 0.25rem;
+    position: relative;
   }
 
   .schedule-day-column {
     position: relative;
-    display: grid;
-    grid-template-rows: repeat(28, var(--slot-height));
+    grid-row: 1 / -1;
     min-height: calc(var(--slot-height) * 28);
     border-radius: 1rem;
     transition: background 0.18s ease;
@@ -407,7 +416,6 @@ const description = "高效规划 平衡生活";
   }
 
   .schedule-item {
-    grid-row: auto;
     align-self: stretch;
     position: relative;
     margin: 0.12rem 0.35rem;
@@ -422,6 +430,10 @@ const description = "高效规划 平衡生活";
       transform 0.18s ease,
       box-shadow 0.18s ease;
     overflow: hidden;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .schedule-item::before {
