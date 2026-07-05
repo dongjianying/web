@@ -61,4 +61,5 @@ export type SidebarLayoutConfig = {
 	leftComponents: WidgetComponentConfig[]; // 左侧边栏组件配置列表
 	rightComponents: WidgetComponentConfig[]; // 右侧边栏组件配置列表
 	mobileBottomComponents: MobileBottomComponentConfig[]; // 移动端底部组件配置列表（<768px显示）
+	showNavBarLinksMenu?: boolean; // 是否显示导航栏中的"链接"菜单，默认 true
 };

@@ -239,4 +239,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			},
 		},
 	],
+
+	// 导航栏"链接"菜单开关（true=显示，false=隐藏）
+	showNavBarLinksMenu: false,
 };
