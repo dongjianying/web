@@ -48,6 +48,15 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			"assets/images/DesktopWallpaper/3.jpg",
 			"assets/images/DesktopWallpaper/4.jpg",
 			"assets/images/DesktopWallpaper/6.jpg",
+			"assets/images/DesktopWallpaper/cover2.jpg",
+			"assets/images/DesktopWallpaper/cover3.jpg",
+			"assets/images/DesktopWallpaper/cover4.jpg",
+			"assets/images/DesktopWallpaper/cover5.jpg",
+			"assets/images/DesktopWallpaper/cover6.jpg",
+			"assets/images/DesktopWallpaper/cover7.png",
+			"assets/images/DesktopWallpaper/cover8.jpg",
+			"assets/images/DesktopWallpaper/cover9.jpg",
+			"assets/images/DesktopWallpaper/cover10.png",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
@@ -63,6 +72,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// playerUrl: "/assets/videos/firefly.mp4",
 		playerUrl: [
 			"https://www.image2url.com/r2/default/videos/1781765166391-f2ba6648-1597-40e0-9f0a-6768ae39e574.mp4",
+			"/assets/videos/工厂.mp4",
 		],
 	},
 	// 横幅壁纸和全屏壁纸共享配置

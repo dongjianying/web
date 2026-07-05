@@ -12,7 +12,8 @@ export const profileConfig: ProfileConfig = {
 	name: "君则",
 
 	// 个人签名
-	bio: "功夫=方法+时间+试验,只要呼吸就好",
+	bio: "功夫=方法+时间+试验",
+	
 	
 
 	// 链接配置

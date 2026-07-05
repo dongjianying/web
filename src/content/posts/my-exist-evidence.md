@@ -4,6 +4,7 @@ published: 2026-06-28
 updated: 2026-06-28
 draft: false
 description: 这是我的经历记录
+image: ./images/cover4.jpg
 tags: [随笔]
 category: 随笔
 pinned: true
