@@ -40,7 +40,6 @@ export type SiteConfig = {
 		defaultMode?: LIGHT_DARK_MODE; // 默认模式：浅色、深色或跟随系统
 	};
 
-
 	// 页面整体宽度（单位：rem）
 	pageWidth?: number;
 
@@ -86,7 +85,6 @@ export type SiteConfig = {
 		gallery: boolean; // 相册页面开关
 		schedule: boolean; // 周日程表页面开关
 	};
-
 
 	// 分类导航栏开关
 	categoryBar?: boolean;

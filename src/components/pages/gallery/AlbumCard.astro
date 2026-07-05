@@ -5,27 +5,27 @@ import { getLqipProps } from "@/utils/lqip-utils";
 import { url } from "@/utils/url-utils";
 
 interface Props {
-  id: string;
-  name: string;
-  cover: string;
-  description?: string;
-  date?: string;
-  location?: string;
-  tags?: string[];
-  photoCount: number;
-  encrypted?: boolean;
+	id: string;
+	name: string;
+	cover: string;
+	description?: string;
+	date?: string;
+	location?: string;
+	tags?: string[];
+	photoCount: number;
+	encrypted?: boolean;
 }
 
 const {
-  id,
-  name,
-  cover,
-  description,
-  date,
-  location,
-  tags,
-  photoCount,
-  encrypted,
+	id,
+	name,
+	cover,
+	description,
+	date,
+	location,
+	tags,
+	photoCount,
+	encrypted,
 } = Astro.props;
 
 // LQIP 渐变占位

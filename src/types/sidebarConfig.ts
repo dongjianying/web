@@ -52,7 +52,6 @@ export type CalendarConfig = {
 
 // 广告栏配置
 
-
 export type SidebarLayoutConfig = {
 	enable: boolean; // 是否启用侧边栏
 	position: "left" | "right" | "both"; // 侧边栏位置：左侧、右侧或双侧

@@ -34,8 +34,7 @@ export const friendsConfig: FriendLink[] = [
 	},
 	{
 		title: "年华",
-		imgurl:
-			"https://q1.qlogo.cn/g?b=qq&nk=1323860289&s=640",
+		imgurl: "https://q1.qlogo.cn/g?b=qq&nk=1323860289&s=640",
 		desc: "分享生活和技术。",
 		siteurl: "https://blog.520781.xyz",
 		tags: ["Blog"],
@@ -44,8 +43,7 @@ export const friendsConfig: FriendLink[] = [
 	},
 	{
 		title: "萧小晓",
-		imgurl:
-			"https://www.lxlovo.top/png.png",
+		imgurl: "https://www.lxlovo.top/png.png",
 		desc: "一个爱写文的菜鸡。",
 		siteurl: "https://blog.lxlovo.top",
 		tags: ["Blog"],
