@@ -188,7 +188,7 @@ const latestTime = shuoshuoItems[0]?.time;
 			</div>
 		) : (
 			<div class="shuoshuo-timeline" id="shuoshuo-container">
-				{groups.map((group) => (
+				{groups.map((group, groupIndex) => (
 					<section
 						class="shuoshuo-group"
 						data-date={group.dateKey}
@@ -197,49 +197,53 @@ const latestTime = shuoshuoItems[0]?.time;
 						<header class="shuoshuo-group-header">
 							<h3>{group.dayLabel}</h3>
 							<span class="shuoshuo-group-count">{group.items.length} 条</span>
-							<i></i>
 						</header>
 
 						<div class="shuoshuo-group-body">
-							{group.items.map((item) => {
+							{group.items.map((item, itemIndex) => {
 								const Content = item.Content;
 								const tagsJson = JSON.stringify(item.tags);
+								const isFirstInGroup = itemIndex === 0;
 
 								return (
 									<article
 										class="shuoshuo-item"
 										data-tags={tagsJson}
 										data-month={item.monthKey}
+										data-first={isFirstInGroup ? "true" : "false"}
 									>
-										<div class="shuoshuo-item-meta">
-											<span>
-												<Icon name="material-symbols:schedule-rounded" />
-												{item.time}
-											</span>
-											{item.mood && (
+										<div class="shuoshuo-timeline-dot"></div>
+										<div class="shuoshuo-item-inner">
+											<div class="shuoshuo-item-meta">
 												<span>
-													<Icon name="material-symbols:mood-rounded" />
-													{item.mood}
+													<Icon name="material-symbols:schedule-rounded" />
+													{item.time}
 												</span>
+												{item.mood && (
+													<span>
+														<Icon name="material-symbols:mood-rounded" />
+														{item.mood}
+													</span>
+												)}
+											</div>
+
+											<div class="shuoshuo-content custom-md">
+												<Content />
+											</div>
+
+											{item.tags.length > 0 && (
+												<div class="shuoshuo-tags">
+													{item.tags.map((tag) => (
+														<a
+															href={`/shuoshuo/?tag=${encodeURIComponent(tag)}`}
+															data-filter-tag={tag}
+														>
+															#{tag}
+														</a>
+													))}
+												</div>
 											)}
 										</div>
-
-										<div class="shuoshuo-content custom-md">
-											<Content />
-										</div>
-
-										{item.tags.length > 0 && (
-											<div class="shuoshuo-tags">
-												{item.tags.map((tag) => (
-													<a
-														href={`/shuoshuo/?tag=${encodeURIComponent(tag)}`}
-														data-filter-tag={tag}
-													>
-														#{tag}
-													</a>
-												))}
-											</div>
-										)}
 									</article>
 								);
 							})}
@@ -584,9 +588,27 @@ const latestTime = shuoshuoItems[0]?.time;
 	}
 
 	.shuoshuo-timeline {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		gap: 3.2rem;
+		padding-left: 2.5rem;
+	}
+
+	.shuoshuo-timeline::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0.75rem;
+		width: 2px;
+		background: linear-gradient(to bottom, var(--primary), transparent);
+		opacity: 0.3;
+	}
+
+	:root:not(.dark) .shuoshuo-timeline::before {
+		background: linear-gradient(to bottom, color-mix(in srgb, var(--primary) 60%, #ccc), transparent);
+		opacity: 0.25;
 	}
 
 	.shuoshuo-group {
@@ -596,10 +618,10 @@ const latestTime = shuoshuoItems[0]?.time;
 	}
 
 	.shuoshuo-group-header {
-		display: grid;
-		grid-template-columns: max-content max-content minmax(0, 1fr);
+		display: flex;
 		align-items: center;
 		gap: 0.8rem;
+		margin-bottom: 0.5rem;
 		color: rgb(255 255 255 / 0.82);
 	}
 
@@ -612,17 +634,13 @@ const latestTime = shuoshuoItems[0]?.time;
 		font-size: 1.18rem;
 		font-weight: 800;
 		letter-spacing: 0;
+		color: var(--primary);
 	}
 
 	.shuoshuo-group-count {
 		font-size: 0.86rem;
 		font-weight: 700;
 		opacity: 0.68;
-	}
-
-	.shuoshuo-group-header i {
-		height: 1px;
-		background: color-mix(in srgb, currentColor 22%, transparent);
 	}
 
 	.shuoshuo-group-body {
@@ -633,6 +651,38 @@ const latestTime = shuoshuoItems[0]?.time;
 
 	.shuoshuo-item {
 		position: relative;
+		display: flex;
+		gap: 1.2rem;
+	}
+
+	.shuoshuo-timeline-dot {
+		position: absolute;
+		left: -1.75rem;
+		top: 1.4rem;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--primary);
+		border: 3px solid var(--card-bg);
+		box-shadow: 0 0 0 2px var(--primary);
+		z-index: 2;
+		transition: transform 180ms ease, box-shadow 180ms ease;
+	}
+
+	.shuoshuo-item[data-first="true"] .shuoshuo-timeline-dot {
+		width: 14px;
+		height: 14px;
+		left: -1.85rem;
+		top: 1.3rem;
+	}
+
+	.shuoshuo-item:hover .shuoshuo-timeline-dot {
+		transform: scale(1.2);
+		box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 40%, transparent);
+	}
+
+	.shuoshuo-item-inner {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
@@ -649,7 +699,7 @@ const latestTime = shuoshuoItems[0]?.time;
 			box-shadow 180ms ease;
 	}
 
-	:root:not(.dark) .shuoshuo-item {
+	:root:not(.dark) .shuoshuo-item-inner {
 		border-color: rgb(0 0 0 / 0.05);
 		background:
 			linear-gradient(135deg, rgb(255 255 255 / 0.72), transparent 42%),
@@ -658,25 +708,10 @@ const latestTime = shuoshuoItems[0]?.time;
 		color: rgb(0 0 0 / 0.74);
 	}
 
-	.shuoshuo-item::before {
-		content: "";
-		position: absolute;
-		inset: 0 auto 0 0;
-		width: 3px;
-		border-radius: var(--radius-large) 0 0 var(--radius-large);
-		background: var(--primary);
-		opacity: 0;
-		transition: opacity 180ms ease;
-	}
-
-	.shuoshuo-item:hover {
+	.shuoshuo-item:hover .shuoshuo-item-inner {
 		transform: translateY(-2px);
 		border-color: color-mix(in srgb, var(--primary) 44%, transparent);
 		box-shadow: 0 22px 52px rgb(0 0 0 / 0.18);
-	}
-
-	.shuoshuo-item:hover::before {
-		opacity: 0.86;
 	}
 
 	.shuoshuo-item-meta {
@@ -772,11 +807,27 @@ const latestTime = shuoshuoItems[0]?.time;
 			gap: 0.45rem;
 		}
 
+		.shuoshuo-timeline {
+			padding-left: 2rem;
+		}
+
+		.shuoshuo-timeline::before {
+			left: 0.5rem;
+		}
+
+		.shuoshuo-timeline-dot {
+			left: -1.5rem;
+		}
+
+		.shuoshuo-item[data-first="true"] .shuoshuo-timeline-dot {
+			left: -1.6rem;
+		}
+
 		.shuoshuo-group-header {
 			gap: 0.55rem;
 		}
 
-		.shuoshuo-item {
+		.shuoshuo-item-inner {
 			padding: 1rem;
 		}
 	}
