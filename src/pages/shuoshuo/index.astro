@@ -188,7 +188,7 @@ const latestTime = shuoshuoItems[0]?.time;
 			</div>
 		) : (
 			<div class="shuoshuo-timeline" id="shuoshuo-container">
-				{groups.map((group, groupIndex) => (
+				{groups.map((group) => (
 					<section
 						class="shuoshuo-group"
 						data-date={group.dateKey}
@@ -197,6 +197,16 @@ const latestTime = shuoshuoItems[0]?.time;
 						<header class="shuoshuo-group-header">
 							<h3>{group.dayLabel}</h3>
 							<span class="shuoshuo-group-count">{group.items.length} 条</span>
+							<button
+								type="button"
+								class="shuoshuo-like-btn-inline"
+								data-like-btn-inline
+								data-date={group.dateKey}
+								aria-label="点赞"
+							>
+								<Icon name="material-symbols:favorite-outline-rounded" class="like-icon" />
+								<span class="like-count">0</span>
+							</button>
 						</header>
 
 						<div class="shuoshuo-group-body">
@@ -211,6 +221,7 @@ const latestTime = shuoshuoItems[0]?.time;
 										data-tags={tagsJson}
 										data-month={item.monthKey}
 										data-first={isFirstInGroup ? "true" : "false"}
+										data-id={item.id}
 									>
 										<div class="shuoshuo-timeline-dot"></div>
 										<div class="shuoshuo-item-inner">
@@ -243,6 +254,8 @@ const latestTime = shuoshuoItems[0]?.time;
 													))}
 												</div>
 											)}
+
+											
 										</div>
 									</article>
 								);
@@ -262,6 +275,106 @@ const latestTime = shuoshuoItems[0]?.time;
 
 			var controller = new AbortController();
 			var signal = controller.signal;
+
+			// ─ Like System ──────────────────────────────────────
+			var LIKED_KEY = "shuoshuo_liked_ids";
+			var LIKE_COUNTS_KEY = "shuoshuo_like_counts";
+
+			function getLikedIds() {
+				try {
+					return JSON.parse(localStorage.getItem(LIKED_KEY) || "[]");
+				} catch (_error) {
+					return [];
+				}
+			}
+
+			function setLikedIds(ids) {
+				localStorage.setItem(LIKED_KEY, JSON.stringify(ids));
+			}
+
+			function hasLiked(id) {
+				return getLikedIds().indexOf(id) !== -1;
+			}
+
+			function addLike(id) {
+				var ids = getLikedIds();
+				if (ids.indexOf(id) === -1) {
+					ids.push(id);
+					setLikedIds(ids);
+				}
+			}
+
+			function removeLike(id) {
+				var ids = getLikedIds();
+				var index = ids.indexOf(id);
+				if (index !== -1) {
+					ids.splice(index, 1);
+					setLikedIds(ids);
+				}
+			}
+
+			function getLikeCounts() {
+				try {
+					return JSON.parse(localStorage.getItem(LIKE_COUNTS_KEY) || "{}");
+				} catch (_error) {
+					return {};
+				}
+			}
+
+			function setLikeCounts(counts) {
+				localStorage.setItem(LIKE_COUNTS_KEY, JSON.stringify(counts));
+			}
+
+			function incrementLikeCount(id) {
+				var counts = getLikeCounts();
+				counts[id] = (counts[id] || 0) + 1;
+				setLikeCounts(counts);
+				return counts[id];
+			}
+
+			function decrementLikeCount(id) {
+				var counts = getLikeCounts();
+				counts[id] = Math.max(0, (counts[id] || 0) - 1);
+				setLikeCounts(counts);
+				return counts[id];
+			}
+
+			function updateLikeButton(btn, id) {
+				var liked = hasLiked(id);
+				var count = getLikeCounts()[id] || 0;
+				var icon = btn.querySelector(".like-icon");
+				var countEl = btn.querySelector(".like-count");
+
+				btn.classList.toggle("liked", liked);
+				countEl.textContent = count;
+
+				if (icon) {
+					icon.setAttribute(
+						"name",
+						liked ? "material-symbols:favorite-rounded" : "material-symbols:favorite-outline-rounded"
+					);
+				}
+			}
+
+			function handleLikeClick(event) {
+				var btn = event.target.closest("[data-like-btn-inline]");
+				if (!btn) return;
+
+				var dateKey = btn.getAttribute("data-date");
+				if (!dateKey) return;
+
+				var liked = hasLiked(dateKey);
+
+				if (liked) {
+					removeLike(dateKey);
+					decrementLikeCount(dateKey);
+				} else {
+					addLike(dateKey);
+					incrementLikeCount(dateKey);
+				}
+
+				updateLikeButton(btn, dateKey);
+			}
 
 			function readFilters() {
 				var params = new URLSearchParams(window.location.search);
@@ -406,6 +519,17 @@ const latestTime = shuoshuoItems[0]?.time;
 			document.addEventListener("swup:pageView", applyFilters, {
 				signal: signal,
 			});
+
+			// Initialize like buttons
+			document.querySelectorAll("[data-like-btn-inline]").forEach(function (btn) {
+				var dateKey = btn.getAttribute("data-date");
+				if (!dateKey) return;
+
+				updateLikeButton(btn, dateKey);
+			});
+
+			// Add click handler for like buttons
+			document.addEventListener("click", handleLikeClick, { signal: signal });
 
 			window.__shuoshuoTimelineCleanup = function () {
 				controller.abort();
@@ -641,6 +765,54 @@ const latestTime = shuoshuoItems[0]?.time;
 		font-size: 0.86rem;
 		font-weight: 700;
 		opacity: 0.68;
+	}
+
+	.shuoshuo-like-btn-inline {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.3rem 0.6rem;
+		border: none;
+		border-radius: 999px;
+		background: var(--btn-plain-bg-hover);
+		color: rgb(0 0 0 / 0.62);
+		font-size: 0.8rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 200ms ease;
+	}
+
+	:root.dark .shuoshuo-like-btn-inline {
+		color: rgb(255 255 255 / 0.64);
+	}
+
+	.shuoshuo-like-btn-inline:hover:not(:disabled) {
+		background: color-mix(in srgb, var(--primary) 12%, var(--btn-plain-bg-hover));
+		transform: scale(1.05);
+	}
+
+	.shuoshuo-like-btn-inline:disabled {
+		cursor: not-allowed;
+		opacity: 0.7;
+	}
+
+	.shuoshuo-like-btn-inline.liked {
+		background: color-mix(in srgb, var(--primary) 18%, transparent);
+		color: var(--primary);
+	}
+
+	.shuoshuo-like-btn-inline.liked .like-icon {
+		fill: currentColor;
+	}
+
+	.shuoshuo-like-btn-inline .like-icon {
+		width: 1rem;
+		height: 1rem;
+		transition: transform 200ms ease;
+	}
+
+	.shuoshuo-like-btn-inline:hover:not(:disabled) .like-icon {
+		transform: scale(1.15);
 	}
 
 	.shuoshuo-group-body {
