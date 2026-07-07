@@ -380,6 +380,7 @@ const managerConfigStr = JSON.stringify({
                 });
 
                 loadTrack(startIndex, false);
+                // 第二个参数 false = 页面初始化不自动播放；
             } else {
                 state.initialized = true;
                 emit('fm:init', {
