@@ -4,7 +4,7 @@ published: 2026-07-05
 updated: 2026-07-05
 draft: false
 description: 这个是示例文章
-tags: [示例]
+tags: [代码笔记]
 category: 示例
 pinned: false
 comment: true

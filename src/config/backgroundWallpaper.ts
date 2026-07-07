@@ -95,6 +95,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 				"Roots grow deep in the dark, so the tree can trust the light",
 				"请尽量让你的生活不要重复三万次，因为那样会很无聊",
 				"保持怀疑，坚定方向，再接再厉",
+				"为学日益，为道日损",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.1rem",
