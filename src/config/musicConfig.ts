@@ -133,6 +133,13 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				cover: "/assets/music/cover/1.jpg",
 				lrc: "/assets/music/Up Up and Away-Xxxtention-歌词.lrc",
 			},
+			{
+				name: "Sacred Play Secret Place (氛围版)",
+				artist: "DJMOUN",
+				url: "/assets/music/Sacred Play Secret Place (氛围版)-DJMOUN.mp3",
+				cover: "/assets/music/cover/1.jpg",
+				lrc: "/assets/music/Up Up and Away-Xxxtention-歌词.lrc",
+			},
 		],
 	},
 };
