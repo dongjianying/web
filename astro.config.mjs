@@ -9,11 +9,14 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
+// 使用 createRequire 加载 mhchem，确保它注册到全局 KaTeX 实例
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+require("katex/contrib/mhchem");
 import katex from "katex";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeComponents from "rehype-components"; /* Render the custom directive content */
 import rehypeKatex from "rehype-katex";
-import "katex/dist/contrib/mhchem.mjs"; // 加载 mhchem 扩展
 import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import { pluginCollapsible } from "expressive-code-collapsible"; /* Collapsible */
@@ -48,8 +51,8 @@ if (process.env.NODE_ENV === "development") {
 
 const adapter = process.env.CF_WORKERS
 	? cloudflare({
-			prerenderEnvironment: "node",
-		})
+		prerenderEnvironment: "node",
+	})
 	: undefined;
 
 // https://astro.build/config
@@ -144,20 +147,20 @@ export default defineConfig({
 				// pluginCollapsible 配置 - 从expressiveCodeConfig读取设置，使用i18n文本
 				...(expressiveCodeConfig.pluginCollapsible?.enable === true
 					? [
-							pluginCollapsible({
-								lineThreshold:
-									expressiveCodeConfig.pluginCollapsible.lineThreshold || 15,
-								previewLines:
-									expressiveCodeConfig.pluginCollapsible.previewLines || 8,
-								defaultCollapsed:
-									expressiveCodeConfig.pluginCollapsible.defaultCollapsed ??
-									true,
-								expandButtonText: i18n(I18nKey.codeCollapsibleShowMore),
-								collapseButtonText: i18n(I18nKey.codeCollapsibleShowLess),
-								expandedAnnouncement: i18n(I18nKey.codeCollapsibleExpanded),
-								collapsedAnnouncement: i18n(I18nKey.codeCollapsibleCollapsed),
-							}),
-						]
+						pluginCollapsible({
+							lineThreshold:
+								expressiveCodeConfig.pluginCollapsible.lineThreshold || 15,
+							previewLines:
+								expressiveCodeConfig.pluginCollapsible.previewLines || 8,
+							defaultCollapsed:
+								expressiveCodeConfig.pluginCollapsible.defaultCollapsed ??
+								true,
+							expandButtonText: i18n(I18nKey.codeCollapsibleShowMore),
+							collapseButtonText: i18n(I18nKey.codeCollapsibleShowLess),
+							expandedAnnouncement: i18n(I18nKey.codeCollapsibleExpanded),
+							collapsedAnnouncement: i18n(I18nKey.codeCollapsibleCollapsed),
+						}),
+					]
 					: []),
 			],
 			defaultProps: {

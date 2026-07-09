@@ -72,12 +72,12 @@ $$
 ### 化学方程式 (Chemical Equations)
 
 $$
-\ce{CH4 + 2O2 -> CO2 + 2H2O}
+\mathrm{CH}_4 + 2\mathrm{O}_2 \rightarrow \mathrm{CO}_2 + 2\mathrm{H}_2\mathrm{O}
 $$
 
 ## 更多符号
 
-| 符号        | 代码          | 渲染结果      |
+| 符号         | 代码          | 渲染结果      |
 | :---------- | :------------ | :------------ |
 | Alpha       | `\alpha`      | $\alpha$      |
 | Beta        | `\beta`       | $\beta$       |
