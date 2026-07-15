@@ -82,9 +82,7 @@ export type SiteConfig = {
 		friends: boolean; // 友链页面开关
 		sponsor: boolean; // 打赏页面开关
 		guestbook: boolean; // 留言板页面开关
-		bangumi: boolean;
 		gallery: boolean; // 相册页面开关
-		anime: boolean; // 追番页面开关
 		dynamic: boolean; // 动态页面开关
 	};
 
@@ -144,25 +142,6 @@ export type SiteConfig = {
 		generateOgImages: boolean;
 	};
 
-	// bangumi配置
-	bangumi?: {
-		userId?: string; // Bangumi用户ID
-		mode?: "static" | "dynamic"; // 数据模式：static=构建时获取，dynamic=客户端实时获取
-		apiUrl?: string; // Bangumi API 地址
-		subjectBaseUrl?: string; // 条目详情页地址
-		categoryOrder?: ("anime" | "game" | "book" | "music" | "real")[]; // 条目类型排序顺序
-	};
-
-	// 追番配置（Bilibili + TMDB）
-	anime?: {
-		bilibili?: {
-			uid: string; // Bilibili 用户 UID
-		};
-		tmdb?: {
-			apiKey: string; // TMDB API Key
-			listId: string; // TMDB 列表 ID
-		};
-	};
 
 	// 分页配置
 	pagination: {

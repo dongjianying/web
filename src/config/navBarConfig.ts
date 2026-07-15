@@ -58,12 +58,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			// 相册
 			LinkPresets.Gallery,
-
-			// 追番
-			LinkPresets.Anime,
-
-			// 番组计划
-			LinkPresets.Bangumi,
 		],
 	});
 
@@ -185,24 +179,13 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/about/",
 		icon: "material-symbols:person",
 	},
-	Bangumi: {
-		name: "番组计划",
-		url: "/bangumi/",
-		icon: "material-symbols:movie",
-		pageKey: "bangumi",
-	},
 	Gallery: {
 		name: "相册",
 		url: "/gallery/",
 		icon: "material-symbols:photo-library",
 		pageKey: "gallery",
 	},
-	Anime: {
-		name: "追番",
-		url: "/anime/",
-		icon: "material-symbols:live-tv",
-		pageKey: "anime",
-	},
+
 };
 
 export const navBarConfig: NavBarConfig = getDynamicNavBarConfig();
