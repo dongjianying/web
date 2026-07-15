@@ -2,9 +2,10 @@
 title: KaTeX 数学公式示例
 published: 1970-01-02
 description: 展示 Firefly 主题对 KaTeX 数学公式的支持，包括行内公式、块级公式和复杂数学符号。
-tags: [代码笔记, KaTeX]
-category: 示例
-draft: false
+tags: [KaTeX, Math, 示例]
+category: 文章示例
+image: api
+slug: katex-math-example
 ---
 
 本文展示了 [Firefly](https://github.com/CuteLeaf/Firefly) 主题对 KaTeX 数学公式的渲染支持。
@@ -72,23 +73,19 @@ $$
 ### 化学方程式 (Chemical Equations)
 
 $$
-\mathrm{CH}_4 + 2\mathrm{O}_2 \rightarrow \mathrm{CO}_2 + 2\mathrm{H}_2\mathrm{O}
+\ce{CH4 + 2O2 -> CO2 + 2H2O}
 $$
 
 ## 更多符号
 
-| 符号         | 代码          | 渲染结果      |
-| :---------- | :------------ | :------------ |
-| Alpha       | `\alpha`      | $\alpha$      |
-| Beta        | `\beta`       | $\beta$       |
-| Gamma       | `\Gamma`      | $\Gamma$      |
-| Pi          | `\pi`         | $\pi$         |
-| Infinity    | `\infty`      | $\infty$      |
+| 符号 | 代码 | 渲染结果 |
+| :--- | :--- | :--- |
+| Alpha | `\alpha` | $\alpha$ |
+| Beta | `\beta` | $\beta$ |
+| Gamma | `\Gamma` | $\Gamma$ |
+| Pi | `\pi` | $\pi$ |
+| Infinity | `\infty` | $\infty$ |
 | Right Arrow | `\rightarrow` | $\rightarrow$ |
-| Partial     | `\partial`    | $\partial$    |
+| Partial | `\partial` | $\partial$ |
 
 更多 KaTeX 语法请参考 [KaTeX Supported Functions](https://katex.org/docs/supported.html)。
-
-# 网页语法
-
-

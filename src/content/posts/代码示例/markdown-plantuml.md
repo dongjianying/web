@@ -2,9 +2,9 @@
 title: Markdown PlantUML 图表
 published: 1970-01-01
 description: 用于验证 Firefly 中 PlantUML 插件渲染、主题切换与交互能力的示例文章。
-tags: [代码笔记]
-category: 示例
-draft: false
+tags: [PlantUML, Firefly, Markdown]
+category: 文章示例
+slug: markdown-plantuml
 ---
 
 ## Markdown 中 PlantUML 图表指南
@@ -247,3 +247,4 @@ Rel(web, plantuml, "请求图表 SVG")
 LAYOUT_LEFT_RIGHT()
 @enduml
 ```
+

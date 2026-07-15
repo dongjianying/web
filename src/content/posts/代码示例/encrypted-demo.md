@@ -6,6 +6,7 @@ tags: [代码笔记]
 category: 示例
 password: "213241"
 passwordHint: "示例文章密码123456"
+slug: encrypted-demo
 ---
 
 ## 成功解锁了这篇文章！

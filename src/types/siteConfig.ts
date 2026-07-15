@@ -32,7 +32,7 @@ export type SiteConfig = {
 	description?: string; // 网站描述，用于生成 <meta name="description">
 	keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">
 
-	lang: "en" | "zh_CN" | "zh_TW" | "ja" | "ru";
+	lang: "en" | "zh_CN" | "zh_TW" | "ja" | "ru" | "ko";
 
 	themeColor: {
 		hue: number;
@@ -82,8 +82,10 @@ export type SiteConfig = {
 		friends: boolean; // 友链页面开关
 		sponsor: boolean; // 打赏页面开关
 		guestbook: boolean; // 留言板页面开关
+		bangumi: boolean;
 		gallery: boolean; // 相册页面开关
-		schedule: boolean; // 周日程表页面开关
+		anime: boolean; // 追番页面开关
+		dynamic: boolean; // 动态页面开关
 	};
 
 	// 分类导航栏开关
@@ -96,9 +98,26 @@ export type SiteConfig = {
 	postListLayout: {
 		defaultMode: "list" | "grid"; // 默认布局模式：list=列表模式，grid=网格模式
 		mobileDefaultMode?: "list" | "grid"; // 移动端默认布局模式（视口宽度<780px时使用），不设置则跟随 defaultMode
-		showTags: boolean; // 是否在文章列表中显示标签
-		descriptionLines?: number; // 文章简介显示行数，设为 0 则不截断，默认 2
 		allowSwitch: boolean; // 是否允许用户切换布局
+		descriptionLines?: number; // 文章简介显示行数，设为 0 则不截断，默认 2
+		showStatsIcons?: boolean; // 文章卡片底部统计是否显示图标
+		// 标签显示位置："meta"=跟随元数据行（默认），"bottom"=卡片底部独立一行（将替换stats显示，二者只能选其一）
+		tagsPosition?: "meta" | "bottom";
+		// PostMeta 元数据显示控制
+		meta?: {
+			showPublished?: boolean; // 是否显示发布日期
+			showCategory?: boolean; // 是否显示分类
+			showTags?: boolean; // 是否显示标签
+			tagCount?: number; // 标签数量
+			showWords?: boolean; // 是否显示字数
+			showReadingTime?: boolean; // 是否显示阅读时间
+		};
+		// PostStats 统计信息显示控制
+		stats?: {
+			showPublished?: boolean; // 是否显示发布日期
+			showWords?: boolean; // 是否显示字数
+			showReadingTime?: boolean; // 是否显示阅读时间
+		};
 		grid: {
 			// 网格布局配置，仅在 defaultMode 为 "grid" 或允许切换布局时生效
 			// 是否开启瀑布流布局
@@ -125,9 +144,13 @@ export type SiteConfig = {
 		generateOgImages: boolean;
 	};
 
-	// 分页配置
-	pagination: {
-		postsPerPage: number; // 每页显示的文章数量
+	// bangumi配置
+	bangumi?: {
+		userId?: string; // Bangumi用户ID
+		mode?: "static" | "dynamic"; // 数据模式：static=构建时获取，dynamic=客户端实时获取
+		apiUrl?: string; // Bangumi API 地址
+		subjectBaseUrl?: string; // 条目详情页地址
+		categoryOrder?: ("anime" | "game" | "book" | "music" | "real")[]; // 条目类型排序顺序
 	};
 
 	// 追番配置（Bilibili + TMDB）
@@ -136,9 +159,14 @@ export type SiteConfig = {
 			uid: string; // Bilibili 用户 UID
 		};
 		tmdb?: {
-			apiKey: string; // TMDB API 密钥
+			apiKey: string; // TMDB API Key
 			listId: string; // TMDB 列表 ID
 		};
+	};
+
+	// 分页配置
+	pagination: {
+		postsPerPage: number; // 每页显示的文章数量
 	};
 
 	// 图片优化配置
