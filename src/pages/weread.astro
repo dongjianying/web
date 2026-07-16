@@ -135,10 +135,10 @@ const description = "我的微信读书书架，记录阅读足迹";
       // 占位图 SVG
       var PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTggMkg2Yy0xLjEgMC0yIC45LTIgMnYxNmMwIDEuMS45IDIgMiAySDEyYzEuMSAwIDItLjkgMi0yVjRoLTJ2OGwtMi41LTEuNUwxMiAxMlY0eiIgZmlsbD0iIzk5OSIvPjwvc3ZnPg==';
 
-      // 图片代理：通过服务端获取外部图片，绕过浏览器代理/防盗链
+      // 图片 URL：直接使用原始 URL，添加 referrerpolicy 防盗链
       function proxyImageUrl(url) {
         if (!url) return PLACEHOLDER;
-        return '/api/img/?url=' + encodeURIComponent(url);
+        return url;
       }
 
       // 渲染书籍卡片
@@ -162,7 +162,7 @@ const description = "我的微信读书书架，记录阅读足迹";
             : "";
 
           var imgSrc = book.cover ? proxyImageUrl(book.cover) : PLACEHOLDER;
-          var imgHtml = '<img src="' + imgSrc + '" alt="' + book.title + '" class="weread-book-cover" loading="lazy">';
+          var imgHtml = '<img src="' + imgSrc + '" alt="' + book.title + '" class="weread-book-cover" loading="lazy" referrerpolicy="no-referrer">';
 
           return '<a href="https://weread.qq.com/web/bookDetail/' + book.bookId + '" target="_blank" rel="noopener noreferrer" class="weread-book-card group">' +
             '<div class="weread-book-cover-wrap">' +
