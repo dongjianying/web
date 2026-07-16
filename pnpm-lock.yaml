@@ -95,6 +95,9 @@ importers:
       dayjs:
         specifier: ^1.11.21
         version: 1.11.21
+      esrap:
+        specifier: 2.2.13
+        version: 2.2.13
       expressive-code-collapsible:
         specifier: ^0.1.0
         version: 0.1.0(@expressive-code/core@0.44.0)
