@@ -142,7 +142,6 @@ export type SiteConfig = {
 		generateOgImages: boolean;
 	};
 
-
 	// 分页配置
 	pagination: {
 		postsPerPage: number; // 每页显示的文章数量

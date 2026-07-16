@@ -6,7 +6,7 @@ export const commentConfig: CommentConfig = {
 
 	//twikoo评论系统配置
 	twikoo: {
-		envId: "https://twikoo-leaf.netlify.app/.netlify/functions/twikoo",
+		envId: "https://twikoo.vercel.app",
 		// 设置 Twikoo 评论系统语言
 		lang: "zh-CN",
 		// 是否启用文章访问量统计功能
@@ -23,7 +23,7 @@ export const commentConfig: CommentConfig = {
 	//waline评论系统配置
 	waline: {
 		// waline 后端服务地址
-		serverURL: "https://waline.cuteleaf.cn",
+		serverURL: "https://waline.vercel.app",
 		// 设置 Waline 评论系统语言
 		lang: "zh-CN",
 		// 设置 Waline 评论系统表情地址

@@ -27,7 +27,11 @@ const siteStartDate = siteConfig.siteStartDate || "2025-01-01";
 
 // 获取所有文章
 const posts = await getSortedPosts();
-const dynamics = siteConfig.pages.dynamic ? await getCollection("dynamic") : [];
+const dynamics = siteConfig.pages.dynamic
+	? await getCollection("shuoshuo", ({ data }) =>
+			import.meta.env.PROD ? data.draft !== true : true,
+		)
+	: [];
 const categories = await getCategoryList();
 const tags = await getTagList();
 

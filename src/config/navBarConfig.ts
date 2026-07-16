@@ -4,6 +4,8 @@ import {
 	type NavBarSearchConfig,
 	NavBarSearchMethod,
 } from "../types/navBarConfig";
+import { LinkPresets } from "./LinkPresets";
+import { sidebarLayoutConfig } from "./sidebarConfig";
 
 // ============================================================================
 // 导航栏配置 - 根据顺序动态生成导航栏链接
@@ -32,23 +34,19 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			LinkPresets.Tags,
 		],
 	});
-
-	// 动态
-	links.push(LinkPresets.Dynamic);
-
-	//社交及其子菜单
+	//说说
 	links.push({
-		name: "社交",
-		url: "#",
-		icon: "material-symbols:group",
-		children: [
-			// 相册
-			LinkPresets.Friends,
-
-			// 追番
-			LinkPresets.Guestbook,
-		],
+		name: "说说",
+		url: "/shuoshuo/",
+		icon: "material-symbols:forum",
 	});
+	// 书架
+	links.push(LinkPresets.Weread);
+	// 友链
+	links.push(LinkPresets.Friends);
+
+	// 留言板
+	links.push(LinkPresets.Guestbook);
 
 	// 我的及其子菜单
 	links.push({
@@ -70,44 +68,49 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			// 打赏
 			LinkPresets.Sponsor,
 
+			// 周日程表
+			LinkPresets.Schedule,
+
 			// 关于页面
 			LinkPresets.About,
 		],
 	});
 
 	// 自定义导航栏链接
-	links.push({
-		name: "链接",
-		url: "#",
-		icon: "material-symbols:link",
-		// 子菜单
-		children: [
-			{
-				name: "GitHub",
-				url: "https://github.com/CuteLeaf/Firefly",
-				external: true,
-				icon: "fa7-brands:github",
-			},
-			{
-				name: "Gitee",
-				url: "https://gitee.com/CuteLeaf/Firefly",
-				external: true,
-				icon: "fa7-brands:gitee",
-			},
-			{
-				name: "QQ交流群",
-				url: "https://qm.qq.com/q/ZGsFa8qX2G",
-				external: true,
-				icon: "fa7-brands:qq",
-			},
-			{
-				name: "Firefly文档",
-				url: "https://docs-firefly.cuteleaf.cn",
-				external: true,
-				icon: "material-symbols:docs",
-			},
-		],
-	});
+	if (sidebarLayoutConfig.showNavBarLinksMenu ?? true) {
+		links.push({
+			name: "链接",
+			url: "#",
+			icon: "material-symbols:link",
+			// 子菜单
+			children: [
+				{
+					name: "GitHub",
+					url: "https://github.com/dongjianying",
+					external: true,
+					icon: "fa7-brands:github",
+				},
+				{
+					name: "Gitee",
+					url: "https://gitee.com/dong20031120",
+					external: true,
+					icon: "fa7-brands:gitee",
+				},
+				{
+					name: "微信",
+					url: "weixin://dl/chat?djy2132415051",
+					external: true,
+					icon: "fa7-brands:weixin",
+				},
+				{
+					name: "Firefly文档",
+					url: "https://docs-firefly.cuteleaf.cn",
+					external: true,
+					icon: "material-symbols:docs",
+				},
+			],
+		});
+	}
 
 	// 文档链接
 	// links.push({
@@ -123,69 +126,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 // 导航搜索配置
 export const navBarSearchConfig: NavBarSearchConfig = {
 	method: NavBarSearchMethod.PageFind,
-};
-
-// ============================================================================
-// 链接预设 - 可自由自定义导航栏链接的名称、图标和URL
-// Link Presets - Allows free customization of the name, icon, and URL of navigation bar links
-// ============================================================================
-export const LinkPresets: Record<string, NavBarLink> = {
-	Home: {
-		name: "主页",
-		url: "/",
-		icon: "material-symbols:home",
-	},
-	Dynamic: {
-		name: "动态",
-		url: "/dynamic/",
-		icon: "material-symbols:forum-rounded",
-		pageKey: "dynamic",
-	},
-	Archive: {
-		name: "归档",
-		url: "/archive/",
-		icon: "material-symbols:archive",
-	},
-	Categories: {
-		name: "分类",
-		url: "/categories/",
-		icon: "material-symbols:folder-open-rounded",
-	},
-	Tags: {
-		name: "标签",
-		url: "/tags/",
-		icon: "material-symbols:tag-rounded",
-	},
-	Friends: {
-		name: "友链",
-		url: "/friends/",
-		icon: "material-symbols:link-2-rounded",
-		pageKey: "friends",
-	},
-	Sponsor: {
-		name: "打赏",
-		url: "/sponsor/",
-		icon: "material-symbols:favorite",
-		pageKey: "sponsor",
-	},
-	Guestbook: {
-		name: "留言",
-		url: "/guestbook/",
-		icon: "material-symbols:chat",
-		pageKey: "guestbook",
-	},
-	About: {
-		name: "关于我",
-		url: "/about/",
-		icon: "material-symbols:person",
-	},
-	Gallery: {
-		name: "相册",
-		url: "/gallery/",
-		icon: "material-symbols:photo-library",
-		pageKey: "gallery",
-	},
-
 };
 
 export const navBarConfig: NavBarConfig = getDynamicNavBarConfig();

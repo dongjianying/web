@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import { Icon } from "astro-icon/components";
+import Comment from "@/components/comment/index.astro";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 
 const pad = (value: number) => String(value).padStart(2, "0");
@@ -34,6 +35,16 @@ const shuoshuoItems = await Promise.all(
 		const published = entry.data.published;
 		const monthKey = formatMonthKey(published);
 
+		// 提取纯文本用于搜索
+		const searchText = (entry.body || "")
+			.replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+			.replace(/<[^>]+>/g, " ")
+			.replace(/[#>*_`~[\]()-]/g, " ")
+			.replace(/\s+/g, " ")
+			.trim()
+			.toLowerCase();
+
 		return {
 			id: entry.id,
 			Content,
@@ -44,6 +55,7 @@ const shuoshuoItems = await Promise.all(
 			time: formatTime(published),
 			mood: entry.data.mood,
 			tags: entry.data.tags ?? [],
+			searchText,
 		};
 	}),
 );
@@ -108,6 +120,19 @@ const latestTime = shuoshuoItems[0]?.time;
 
 		{totalCount > 0 && (
 			<div class="shuoshuo-toolbar card-base" id="shuoshuo-toolbar">
+				<!-- 搜索框 -->
+				<div class="shuoshuo-search-row">
+					<div class="shuoshuo-search-input-wrap">
+						<Icon name="material-symbols:search-rounded" class="shuoshuo-search-icon" />
+						<input
+							type="text"
+							id="shuoshuo-search-input"
+							placeholder="搜索说说内容..."
+							class="shuoshuo-search-input"
+						/>
+					</div>
+				</div>
+
 				<div class="shuoshuo-filter-row">
 					<div class="shuoshuo-filter-label">
 						<Icon name="material-symbols:tag-rounded" />
@@ -222,6 +247,7 @@ const latestTime = shuoshuoItems[0]?.time;
 										data-month={item.monthKey}
 										data-first={isFirstInGroup ? "true" : "false"}
 										data-id={item.id}
+										data-search-text={item.searchText}
 									>
 										<div class="shuoshuo-timeline-dot"></div>
 										<div class="shuoshuo-item-inner">
@@ -241,7 +267,7 @@ const latestTime = shuoshuoItems[0]?.time;
 											<div class="shuoshuo-content custom-md">
 												<Content />
 											</div>
-
+											
 											{item.tags.length > 0 && (
 												<div class="shuoshuo-tags">
 													{item.tags.map((tag) => (
@@ -254,8 +280,6 @@ const latestTime = shuoshuoItems[0]?.time;
 													))}
 												</div>
 											)}
-
-											
 										</div>
 									</article>
 								);
@@ -263,6 +287,12 @@ const latestTime = shuoshuoItems[0]?.time;
 						</div>
 					</section>
 				))}
+			</div>
+		)}
+
+		{totalCount > 0 && (
+			<div id="post-comments" class="mt-8">
+				<Comment customPath="/shuoshuo/" />
 			</div>
 		)}
 	</section>
@@ -378,9 +408,11 @@ const latestTime = shuoshuoItems[0]?.time;
 
 			function readFilters() {
 				var params = new URLSearchParams(window.location.search);
+				var searchInput = document.getElementById("shuoshuo-search-input");
 				return {
 					tag: params.get("tag") || "",
 					month: params.get("month") || "",
+					keyword: searchInput ? searchInput.value.trim().toLowerCase() : "",
 				};
 			}
 
@@ -408,6 +440,8 @@ const latestTime = shuoshuoItems[0]?.time;
 					"",
 					window.location.pathname + window.location.hash,
 				);
+				var searchInput = document.getElementById("shuoshuo-search-input");
+				if (searchInput) searchInput.value = "";
 				applyFilters();
 			}
 
@@ -436,6 +470,7 @@ const latestTime = shuoshuoItems[0]?.time;
 				if (!badge) return;
 
 				var text = [];
+				if (filters.keyword) text.push("搜索: " + filters.keyword);
 				if (filters.tag) text.push("#" + filters.tag);
 				if (filters.month) text.push(filters.month);
 
@@ -451,6 +486,13 @@ const latestTime = shuoshuoItems[0]?.time;
 				badge.hidden = false;
 			}
 
+			function itemMatchesSearch(item, keyword) {
+				if (!keyword) return true;
+				var searchText = item.getAttribute("data-search-text") || "";
+				var tags = item.getAttribute("data-tags") || "[]";
+				return searchText.indexOf(keyword) !== -1 || tags.toLowerCase().indexOf(keyword) !== -1;
+			}
+
 			function applyFilters() {
 				var filters = readFilters();
 				var totalVisible = 0;
@@ -463,7 +505,8 @@ const latestTime = shuoshuoItems[0]?.time;
 							!filters.month ||
 							item.getAttribute("data-month") === filters.month;
 						var tagMatches = itemHasTag(item, filters.tag);
-						var visible = monthMatches && tagMatches;
+						var searchMatches = itemMatchesSearch(item, filters.keyword);
+						var visible = monthMatches && tagMatches && searchMatches;
 
 						item.hidden = !visible;
 						if (visible) visibleInGroup += 1;
@@ -519,6 +562,14 @@ const latestTime = shuoshuoItems[0]?.time;
 			document.addEventListener("swup:pageView", applyFilters, {
 				signal: signal,
 			});
+
+			// 搜索输入框实时过滤
+			var searchInput = document.getElementById("shuoshuo-search-input");
+			if (searchInput) {
+				searchInput.addEventListener("input", function () {
+					applyFilters();
+				}, { signal: signal });
+			}
 
 			// Initialize like buttons
 			document.querySelectorAll("[data-like-btn-inline]").forEach(function (btn) {
@@ -622,6 +673,61 @@ const latestTime = shuoshuoItems[0]?.time;
 		border: 1px solid var(--line-divider);
 		background: color-mix(in oklch, var(--card-bg) 82%, transparent);
 		backdrop-filter: blur(16px);
+	}
+
+	.shuoshuo-search-row {
+		display: flex;
+		gap: 0.75rem;
+		align-items: center;
+	}
+
+	.shuoshuo-search-input-wrap {
+		position: relative;
+		flex: 1;
+		display: flex;
+		align-items: center;
+	}
+
+	.shuoshuo-search-icon {
+		position: absolute;
+		left: 0.75rem;
+		color: rgb(0 0 0 / 0.4);
+		font-size: 1.2rem;
+		pointer-events: none;
+	}
+
+	:root.dark .shuoshuo-search-icon {
+		color: rgb(255 255 255 / 0.4);
+	}
+
+	.shuoshuo-search-input {
+		width: 100%;
+		min-height: 2.25rem;
+		padding: 0.4rem 0.75rem 0.4rem 2.5rem;
+		border: 1px solid var(--line-divider);
+		border-radius: 999px;
+		background: var(--btn-plain-bg-hover);
+		color: rgb(0 0 0 / 0.75);
+		font-size: 0.85rem;
+		outline: none;
+		transition: border-color 150ms ease, box-shadow 150ms ease;
+	}
+
+	:root.dark .shuoshuo-search-input {
+		color: rgb(255 255 255 / 0.75);
+	}
+
+	.shuoshuo-search-input:focus {
+		border-color: var(--primary);
+		box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
+	}
+
+	.shuoshuo-search-input::placeholder {
+		color: rgb(0 0 0 / 0.35);
+	}
+
+	:root.dark .shuoshuo-search-input::placeholder {
+		color: rgb(255 255 255 / 0.35);
 	}
 
 	.shuoshuo-filter-row {

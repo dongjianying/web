@@ -36,15 +36,20 @@ const specCollection = defineCollection({
 	schema: z.object({}),
 });
 
-const dynamicCollection = defineCollection({
-	loader: glob({ pattern: "**/*.md", base: "./src/content/dynamic" }),
+const shuoshuoCollection = defineCollection({
+	loader: glob({ pattern: "**/*.md", base: "./src/content/shuoshuo" }),
 	schema: z.object({
-		published: z.date(),
+		published: z.coerce.date(),
+		draft: z.boolean().optional().default(false),
+		mood: z.string().optional(),
+		tags: z.array(z.string()).optional().default([]),
+		// 图片数组（来自上游 dynamic 功能）
+		images: z.array(z.string()).optional().default([]),
 	}),
 });
 
 export const collections = {
-	dynamic: dynamicCollection,
 	posts: postsCollection,
 	spec: specCollection,
+	shuoshuo: shuoshuoCollection,
 };

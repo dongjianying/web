@@ -296,7 +296,55 @@ export default defineConfig({
 		}),
 	},
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [
+			tailwindcss(),
+			// 图片代理中间件：服务端获取外部图片，绕过浏览器代理/防盗链
+			{
+				name: "image-proxy",
+				configureServer(server) {
+					server.middlewares.use("/api/img/", async (req, res, next) => {
+						try {
+							const reqUrl = new URL(req.url, "http://localhost");
+							const imageUrl = reqUrl.searchParams.get("url");
+							if (!imageUrl) {
+								res.statusCode = 400;
+								res.end("Missing url parameter");
+								return;
+							}
+							const parsed = new URL(imageUrl);
+							if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+								res.statusCode = 400;
+								res.end("Invalid protocol");
+								return;
+							}
+							const response = await fetch(parsed.href, {
+								headers: {
+									Referer: "",
+									"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+								},
+								signal: AbortSignal.timeout(5000),
+							});
+							if (!response.ok) {
+								res.statusCode = response.status;
+								res.end("Image fetch failed");
+								return;
+							}
+							const contentType = response.headers.get("content-type") || "image/jpeg";
+							const buffer = Buffer.from(await response.arrayBuffer());
+							res.setHeader("Content-Type", contentType);
+							res.setHeader("Cache-Control", "public, max-age=86400");
+							res.setHeader("Access-Control-Allow-Origin", "*");
+							res.statusCode = 200;
+							res.end(buffer);
+						} catch (err) {
+							console.error("[image-proxy]", err.message);
+							res.statusCode = 502;
+							res.end("Image proxy failed");
+						}
+					});
+				},
+			},
+		],
 		server: {
 			watch: {
 				ignored: ["**/package/**", "**/Firefly-docs/**"],

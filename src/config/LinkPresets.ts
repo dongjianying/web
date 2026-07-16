@@ -61,4 +61,9 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		icon: "material-symbols:photo-library",
 		pageKey: "gallery",
 	},
+	Weread: {
+		name: "书架",
+		url: "/weread/",
+		icon: "material-symbols:auto-stories-rounded",
+	},
 };

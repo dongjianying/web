@@ -7,11 +7,6 @@ import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import type { WidgetComponentConfig } from "@/types/config";
 import { formatDynamicDate } from "@/utils/date-utils";
-import {
-	dynamicAnchor,
-	dynamicPlainText,
-	sortDynamics,
-} from "@/utils/dynamic-utils";
 import { url } from "@/utils/url-utils";
 
 interface Props {
@@ -26,14 +21,36 @@ const configuredLimit = widgetConfig?.specificConfig?.dynamic?.limit ?? 3;
 const limit = Math.max(1, Math.floor(configuredLimit));
 const imagePattern = /!\[([^\]]*)\]\((\S+?)(?:\s+["'][^"']*["'])?\)/;
 
-const dynamics = siteConfig.pages.dynamic
-	? sortDynamics(await getCollection("dynamic"))
+// 辅助函数：从 markdown 中提取纯文本
+function plainText(entry: { body?: string | null }): string {
+	return (entry.body || "")
+		.replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+		.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+		.replace(/<[^>]+>/g, " ")
+		.replace(/[#>*_`~[\]()-]/g, " ")
+		.replace(/\s+/g, " ")
+		.trim();
+}
+
+// 辅助函数：生成锚点 ID
+function anchorId(id: string): string {
+	return `shuoshuo-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+}
+
+// 获取最新说说（替代原来的动态）
+const shuoshuoList = siteConfig.pages.dynamic
+	? (
+			await getCollection("shuoshuo", ({ data }) => {
+				return import.meta.env.PROD ? data.draft !== true : true;
+			})
+		)
+			.sort((a, b) => b.data.published.getTime() - a.data.published.getTime())
 			.slice(0, limit)
 			.map((entry) => {
 				const image = (entry.body || "").match(imagePattern);
 				return {
-					id: dynamicAnchor(entry.id),
-					text: dynamicPlainText(entry),
+					id: anchorId(entry.id),
+					text: plainText(entry),
 					published: entry.data.published,
 					image: image ? { alt: image[1], src: image[2] } : null,
 				};
@@ -51,10 +68,10 @@ const dynamics = siteConfig.pages.dynamic
 			style={style}
 		>
 			<div class="flex flex-col gap-1.5">
-				{dynamics.length > 0 ? (
-					dynamics.map((entry) => (
+				{shuoshuoList.length > 0 ? (
+					shuoshuoList.map((entry) => (
 						<a
-							href={url(`/dynamic/#${entry.id}`)}
+							href={url(`/shuoshuo/#${entry.id}`)}
 							class="group flex min-w-0 min-h-16 items-center gap-3 rounded-lg p-2
 								text-neutral-700/75 dark:text-neutral-300/75
 								hover:bg-(--btn-plain-bg-hover) hover:text-(--primary)
@@ -97,7 +114,7 @@ const dynamics = siteConfig.pages.dynamic
 			<a
 				class="btn-plain mt-2 flex items-center justify-center gap-1 rounded-lg p-1.5
 					text-sm text-(--primary)"
-				href={url("/dynamic/")}
+				href={url("/shuoshuo/")}
 			>
 				<Icon
 					is:inline
