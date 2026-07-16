@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" class="function-graph">
+<style>
+  .function-graph { background: #fafafa; border-radius: 8px; max-width: 100%; }
+  @media (prefers-color-scheme: dark) {
+    .function-graph { background: #1e1e2e; }
+    .fg-grid { stroke: #333; }
+    .fg-axis { stroke: #888; }
+    .fg-label { fill: #aaa; }
+    .fg-title { fill: #ddd; }
+    .fg-curve1 { stroke: #7cacf8; }
+    .fg-curve2 { stroke: #f87171; }
+    .fg-curve3 { stroke: #4ade80; }
+    .fg-curve4 { stroke: #facc15; }
+    .fg-dash { stroke-dasharray: 6 4; }
+  }
+  .fg-grid { stroke: #e0e0e0; stroke-width: 0.5; }
+  .fg-axis { stroke: #666; stroke-width: 1.5; }
+  .fg-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #666; }
+  .fg-title { font-family: system-ui, sans-serif; font-size: 14px; font-weight: 600; fill: #333; text-anchor: middle; }
+  .fg-curve1 { fill: none; stroke: #3b82f6; stroke-width: 2.5; }
+  .fg-curve2 { fill: none; stroke: #ef4444; stroke-width: 2.5; }
+  .fg-curve3 { fill: none; stroke: #22c55e; stroke-width: 2.5; }
+  .fg-curve4 { fill: none; stroke: #eab308; stroke-width: 2.5; }
+  .fg-dash { stroke-dasharray: 6 4; stroke-width: 1.5; }
+</style>
+<text x="300" y="24" class="fg-title">泊松过程 N(t)</text>
+<line x1="50" y1="50" x2="50" y2="350" class="fg-grid"/><line x1="100" y1="50" x2="100" y2="350" class="fg-grid"/><text x="100" y="342.9230769230769" class="fg-label" text-anchor="middle">1</text><line x1="150" y1="50" x2="150" y2="350" class="fg-grid"/><text x="150" y="342.9230769230769" class="fg-label" text-anchor="middle">2</text><line x1="200" y1="50" x2="200" y2="350" class="fg-grid"/><text x="200" y="342.9230769230769" class="fg-label" text-anchor="middle">3</text><line x1="250" y1="50" x2="250" y2="350" class="fg-grid"/><text x="250" y="342.9230769230769" class="fg-label" text-anchor="middle">4</text><line x1="300" y1="50" x2="300" y2="350" class="fg-grid"/><text x="300" y="342.9230769230769" class="fg-label" text-anchor="middle">5</text><line x1="350" y1="50" x2="350" y2="350" class="fg-grid"/><text x="350" y="342.9230769230769" class="fg-label" text-anchor="middle">6</text><line x1="400" y1="50" x2="400" y2="350" class="fg-grid"/><text x="400" y="342.9230769230769" class="fg-label" text-anchor="middle">7</text><line x1="450" y1="50" x2="450" y2="350" class="fg-grid"/><text x="450" y="342.9230769230769" class="fg-label" text-anchor="middle">8</text><line x1="500" y1="50" x2="500" y2="350" class="fg-grid"/><text x="500" y="342.9230769230769" class="fg-label" text-anchor="middle">9</text><line x1="550" y1="50" x2="550" y2="350" class="fg-grid"/><text x="550" y="342.9230769230769" class="fg-label" text-anchor="middle">10</text><line x1="50" y1="326.9230769230769" x2="550" y2="326.9230769230769" class="fg-grid"/><line x1="50" y1="280.7692307692308" x2="550" y2="280.7692307692308" class="fg-grid"/><text x="42" y="284.7692307692308" class="fg-label" text-anchor="end">1</text><line x1="50" y1="234.6153846153846" x2="550" y2="234.6153846153846" class="fg-grid"/><text x="42" y="238.6153846153846" class="fg-label" text-anchor="end">2</text><line x1="50" y1="188.46153846153848" x2="550" y2="188.46153846153848" class="fg-grid"/><text x="42" y="192.46153846153848" class="fg-label" text-anchor="end">3</text><line x1="50" y1="142.30769230769232" x2="550" y2="142.30769230769232" class="fg-grid"/><text x="42" y="146.30769230769232" class="fg-label" text-anchor="end">4</text><line x1="50" y1="96.15384615384616" x2="550" y2="96.15384615384616" class="fg-grid"/><text x="42" y="100.15384615384616" class="fg-label" text-anchor="end">5</text><line x1="50" y1="50" x2="550" y2="50" class="fg-grid"/><text x="42" y="54" class="fg-label" text-anchor="end">6</text><line x1="50" y1="50" x2="50" y2="350" class="fg-axis"/><line x1="50" y1="326.9230769230769" x2="550" y2="326.9230769230769" class="fg-axis"/><text x="42" y="342.9230769230769" class="fg-label" text-anchor="end">0</text><path d="M50.0,326.9 L110.0,326.9 M110.0,326.9 L110.0,280.8 M110.0,280.8 L190.0,280.8 M190.0,280.8 L190.0,234.6 M190.0,234.6 L225.0,234.6 M225.0,234.6 L225.0,188.5 M225.0,188.5 L305.0,188.5 M305.0,188.5 L305.0,142.3 M305.0,142.3 L350.0,142.3 M350.0,142.3 L350.0,96.2 M350.0,96.2 L415.0,96.2 M415.0,96.2 L415.0,50.0 M415.0,50.0 L495.0,50.0 M495.0,50.0 L495.0,3.8 M495.0,3.8 L550.0,3.8 " class="fg-curve1"/><circle cx="110" cy="280.7692307692308" r="3.5" fill="#3b82f6"/><circle cx="110" cy="326.9230769230769" r="3.5" fill="white" stroke="#3b82f6" stroke-width="1.5"/><circle cx="189.99999999999997" cy="234.6153846153846" r="3.5" fill="#3b82f6"/><circle cx="189.99999999999997" cy="280.7692307692308" r="3.5" fill="white" stroke="#3b82f6" stroke-width="1.5"/><circle cx="225" cy="188.46153846153848" r="3.5" fill="#3b82f6"/><circle cx="225" cy="234.6153846153846" r="3.5" fill="white" stroke="#3b82f6" stroke-width="1.5"/><circle cx="305" cy="142.30769230769232" r="3.5" fill="#3b82f6"/><circle cx="305" cy="188.46153846153848" r="3.5" fill="white" stroke="#3b82f6" stroke-width="1.5"/><circle cx="350" cy="96.15384615384616" r="3.5" fill="#3b82f6"/><circle cx="350" cy="142.30769230769232" r="3.5" fill="white" stroke="#3b82f6" stroke-width="1.5"/><circle cx="415" cy="50" r="3.5" fill="#3b82f6"/><circle cx="415" cy="96.15384615384616" r="3.5" fill="white" stroke="#3b82f6" stroke-width="1.5"/><circle cx="495" cy="3.846153846153868" r="3.5" fill="#3b82f6"/><circle cx="495" cy="50" r="3.5" fill="white" stroke="#3b82f6" stroke-width="1.5"/><text x="325" y="142.30769230769232" class="fg-label" text-anchor="start" font-style="italic">N(t) 计数过程</text><text x="300" y="390" class="fg-label" text-anchor="middle" font-size="10">P(X=k) = λᵏe⁻λ / k!</text>
+</svg>

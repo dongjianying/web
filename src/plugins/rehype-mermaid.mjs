@@ -112,6 +112,8 @@ export function rehypeMermaid(options = {}) {
 					console.error(
 						"[rehype-mermaid] 渲染失败:",
 						e instanceof Error ? e.message : String(e),
+						"\n图表代码:",
+						preview,
 					);
 				}
 				node.properties = {
