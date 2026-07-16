@@ -40,3 +40,6 @@ package/
 
 # screenshots
 screenshot-*.png
+
+# generated data
+public/weread-data.json

@@ -214,7 +214,7 @@ const description = "我的微信读书书架，记录阅读足迹";
         const loadingEl = document.getElementById("weread-loading");
         const errorEl = document.getElementById("weread-error");
 
-        fetch("/api/weread/")
+        fetch("/weread-data.json")
           .then(function(res) {
             if (!res.ok) throw new Error("API request failed");
             return res.json();
