@@ -118,8 +118,9 @@ async function main() {
         );
     } catch (err) {
         console.error("[weread] 获取失败:", err.message);
-        // 如果已有缓存文件，不覆盖
-        process.exit(1);
+        // 不覆盖已有缓存文件，CI 中 continue-on-error 会跳过此步骤
+        // 但如果已有 public/weread-data.json 则直接使用
+        console.log("[weread] 将使用已有的缓存数据（如有）");
     }
 }
 
