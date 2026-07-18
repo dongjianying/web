@@ -1,12 +1,84 @@
 {
   "books": [
     {
-      "bookId": "3300024818",
-      "title": "卓有成效的工程师",
-      "author": "埃德蒙·刘",
-      "cover": "https://cdn.weread.qq.com/weread/cover/18/3300024818/t6_3300024818.jpg",
+      "bookId": "3300206984",
+      "title": "我从达尔文那里学到的投资知识",
+      "author": "[印]普拉克·普拉萨德",
+      "cover": "https://cdn.weread.qq.com/weread/cover/63/cpplatform_7nrvwbnknzsbpss3e21mac/t6_cpplatform_7nrvwbnknzsbpss3e21mac1779677822.jpg",
       "status": "reading",
-      "lastReadTime": 1784198596
+      "lastReadTime": 1784387008
+    },
+    {
+      "bookId": "3300060854",
+      "title": "数学要素（全彩图解 + 微课 + Python编程）",
+      "author": "姜伟生",
+      "cover": "https://cdn.weread.qq.com/weread/cover/85/cpplatform_ccnjuiyxsdktpkvurw4n5m/t6_cpplatform_ccnjuiyxsdktpkvurw4n5m1686026006.jpg",
+      "status": "reading",
+      "lastReadTime": 1784276226
+    },
+    {
+      "bookId": "36862187",
+      "title": "MATLAB金融风险管理师FRM（高阶实战）",
+      "author": "姜伟生 涂升 李蓉",
+      "cover": "https://cdn.weread.qq.com/weread/cover/51/YueWen_36862187/t6_YueWen_36862187.jpg",
+      "status": "reading",
+      "lastReadTime": 1784276146
+    },
+    {
+      "bookId": "3300151695",
+      "title": "Python金融风险管理FRM（实战篇）",
+      "author": "姜伟生 涂升 主编 安然 芦苇 张丰 编著",
+      "cover": "https://cdn.weread.qq.com/weread/cover/57/cpplatform_4dyyb7jgot5jhk2cgddp8a/t6_cpplatform_4dyyb7jgot5jhk2cgddp8a1751880058.jpg",
+      "status": "reading",
+      "lastReadTime": 1784276145
+    },
+    {
+      "bookId": "3300125437",
+      "title": "统计至简（概率统计全彩图解 + 微课 + Python编程）",
+      "author": "姜伟生",
+      "cover": "https://cdn.weread.qq.com/weread/cover/45/cpplatform_718qeubtqexqeqwhecnkvr/t6_cpplatform_718qeubtqexqeqwhecnkvr1734061532.jpg",
+      "status": "reading",
+      "lastReadTime": 1784276138
+    },
+    {
+      "bookId": "3300108592",
+      "title": "普林斯顿概率论读本",
+      "author": "[美]史蒂文·J. 米勒",
+      "cover": "https://cdn.weread.qq.com/weread/cover/82/cpplatform_5ohcc5bbhwekbmq8vvthpe/t6_cpplatform_5ohcc5bbhwekbmq8vvthpe1722220858.jpg",
+      "status": "reading",
+      "lastReadTime": 1784276002
+    },
+    {
+      "bookId": "3300060686",
+      "title": "费曼物理学讲义(套装共5册)(新千年版)",
+      "author": "费曼 莱顿 桑兹 戈特利布 法伊弗",
+      "cover": "https://cdn.weread.qq.com/weread/cover/18/cpplatform_39vpq1ljpem97tfh6uduhe/t6_cpplatform_39vpq1ljpem97tfh6uduhe1685947305.jpg",
+      "status": "reading",
+      "lastReadTime": 1784275952
+    },
+    {
+      "bookId": "CB_5II8Yc8ZV3LU74i75O4VnFWV",
+      "title": "新一代食品生物技术",
+      "author": "0102-1",
+      "cover": "https://res.weread.qq.com/wrepub/CB_5II8Yc8ZV3LU74i75O4VnFWV_parsecover",
+      "status": "reading",
+      "lastReadTime": 1784274950
+    },
+    {
+      "bookId": "CB_5lb3R53Ok3Pd74j75OB2VFvP",
+      "title": "穿越计算机的迷雾",
+      "author": "李忠",
+      "cover": "https://res.weread.qq.com/wrepub/CB_DGO1sK1sf5GR73v75OGHl9Se_parsecover",
+      "status": "reading",
+      "lastReadTime": 1784259224
+    },
+    {
+      "bookId": "CB_9we61261D9WO73c71F2Jg8Hj",
+      "title": "Deep Work",
+      "author": "Cal Newport",
+      "cover": "https://res.weread.qq.com/wrepub/CB_9LvEkNEkU8Fp73V71H94D8QZ_parsecover",
+      "status": "reading",
+      "lastReadTime": 1784259089
     },
     {
       "bookId": "CB_DaLDJpDNh9SJ6rH6ooDoOFTw",
@@ -14,7 +86,23 @@
       "author": "莫里斯·克莱因",
       "cover": "https://res.weread.qq.com/wrepub/CB_GPm21u21CFpb6qB6ooGdCAPR_parsecover",
       "status": "reading",
-      "lastReadTime": 1784193273
+      "lastReadTime": 1784259051
+    },
+    {
+      "bookId": "40778499",
+      "title": "Web全栈开发：从入门到实战",
+      "author": "董雪燕编著",
+      "cover": "https://cdn.weread.qq.com/weread/cover/76/YueWen_40778499/t6_YueWen_40778499.jpg",
+      "status": "reading",
+      "lastReadTime": 1784258993
+    },
+    {
+      "bookId": "3300024818",
+      "title": "卓有成效的工程师",
+      "author": "埃德蒙·刘",
+      "cover": "https://cdn.weread.qq.com/weread/cover/18/3300024818/t6_3300024818.jpg",
+      "status": "reading",
+      "lastReadTime": 1784258423
     },
     {
       "bookId": "32345420",
@@ -129,14 +217,6 @@
       "lastReadTime": 1784113714
     },
     {
-      "bookId": "CB_5lb3R53Ok3Pd74j75OB2VFvP",
-      "title": "穿越计算机的迷雾",
-      "author": "李忠",
-      "cover": "https://res.weread.qq.com/wrepub/CB_DGO1sK1sf5GR73v75OGHl9Se_parsecover",
-      "status": "reading",
-      "lastReadTime": 1784113646
-    },
-    {
       "bookId": "CB_AXj90l92U3Tq74o75O5FA21G",
       "title": "马同学图解微积分（上） (马同学) (z-library.sk, 1lib.sk, z-lib.sk)",
       "author": "未知作者",
@@ -151,14 +231,6 @@
       "cover": "https://cdn.weread.qq.com/weread/cover/38/cpplatform_obcnggefwmqr1wo1cjdwrq/t6_cpplatform_obcnggefwmqr1wo1cjdwrq1748524756.jpg",
       "status": "reading",
       "lastReadTime": 1784046227
-    },
-    {
-      "bookId": "CB_5II8Yc8ZV3LU74i75O4VnFWV",
-      "title": "新一代食品生物技术",
-      "author": "0102-1",
-      "cover": "https://res.weread.qq.com/wrepub/CB_5II8Yc8ZV3LU74i75O4VnFWV_parsecover",
-      "status": "reading",
-      "lastReadTime": 1784046131
     },
     {
       "bookId": "3300215391",
@@ -879,14 +951,6 @@
       "cover": "https://res.weread.qq.com/wrepub/CB_5hQEciEdu8Sb73t75O0E4DZR_parsecover",
       "status": "reading",
       "lastReadTime": 1782400788
-    },
-    {
-      "bookId": "CB_9we61261D9WO73c71F2Jg8Hj",
-      "title": "Deep Work",
-      "author": "Cal Newport",
-      "cover": "https://res.weread.qq.com/wrepub/CB_9LvEkNEkU8Fp73V71H94D8QZ_parsecover",
-      "status": "reading",
-      "lastReadTime": 1782400777
     },
     {
       "bookId": "3300028078",
@@ -2369,14 +2433,6 @@
       "lastReadTime": 1772549701
     },
     {
-      "bookId": "3300060854",
-      "title": "数学要素（全彩图解 + 微课 + Python编程）",
-      "author": "姜伟生",
-      "cover": "https://cdn.weread.qq.com/weread/cover/85/cpplatform_ccnjuiyxsdktpkvurw4n5m/t6_cpplatform_ccnjuiyxsdktpkvurw4n5m1686026006.jpg",
-      "status": "reading",
-      "lastReadTime": 1772549630
-    },
-    {
       "bookId": "41286966",
       "title": "英语思维就是要刻意练习",
       "author": "王乐平",
@@ -3343,14 +3399,6 @@
       "cover": "https://cdn.weread.qq.com/weread/cover/14/cpplatform_ggscw9vfzjw7ottedw5pzw/t6_cpplatform_ggscw9vfzjw7ottedw5pzw1704178547.jpg",
       "status": "reading",
       "lastReadTime": 1760179406
-    },
-    {
-      "bookId": "3300060686",
-      "title": "费曼物理学讲义(套装共5册)(新千年版)",
-      "author": "费曼 莱顿 桑兹 戈特利布 法伊弗",
-      "cover": "https://cdn.weread.qq.com/weread/cover/18/cpplatform_39vpq1ljpem97tfh6uduhe/t6_cpplatform_39vpq1ljpem97tfh6uduhe1685947305.jpg",
-      "status": "reading",
-      "lastReadTime": 1760179400
     },
     {
       "bookId": "716654",
@@ -7177,13 +7225,13 @@
       "lastReadTime": 1580230133
     },
     {
-      "bookId": "CB_3j818614j6Sp73z75O9TM28h",
-      "title": "数学觉醒：学会更清晰地思考",
-      "author": "未知作者",
-      "cover": "https://weread-1258476243.file.myqcloud.com/app/assets/bookcover/book_cover_default_imported_07.png",
+      "bookId": "3300190097",
+      "title": "人人可懂的微积分——用动态、微观、累加的观点来看待微积分",
+      "author": "邓子云",
+      "cover": "https://cdn.weread.qq.com/weread/cover/1/cpplatform_huwwqwmapqc4innakvtlys/t6_cpplatform_huwwqwmapqc4innakvtlys1767516485.jpg",
       "readProgress": 100,
       "status": "finished",
-      "lastReadTime": 1784181385
+      "lastReadTime": 1784386134
     },
     {
       "bookId": "26211919",
@@ -7192,7 +7240,16 @@
       "cover": "https://cdn.weread.qq.com/weread/cover/51/YueWen_26211919/t6_YueWen_26211919.jpg",
       "readProgress": 100,
       "status": "finished",
-      "lastReadTime": 1784044558
+      "lastReadTime": 1784373112
+    },
+    {
+      "bookId": "CB_3j818614j6Sp73z75O9TM28h",
+      "title": "数学觉醒：学会更清晰地思考",
+      "author": "未知作者",
+      "cover": "https://weread-1258476243.file.myqcloud.com/app/assets/bookcover/book_cover_default_imported_07.png",
+      "readProgress": 100,
+      "status": "finished",
+      "lastReadTime": 1784219669
     },
     {
       "bookId": "3300200142",
@@ -7274,15 +7331,6 @@
       "readProgress": 100,
       "status": "finished",
       "lastReadTime": 1783343065
-    },
-    {
-      "bookId": "3300190097",
-      "title": "人人可懂的微积分——用动态、微观、累加的观点来看待微积分",
-      "author": "邓子云",
-      "cover": "https://cdn.weread.qq.com/weread/cover/1/cpplatform_huwwqwmapqc4innakvtlys/t6_cpplatform_huwwqwmapqc4innakvtlys1767516485.jpg",
-      "readProgress": 100,
-      "status": "finished",
-      "lastReadTime": 1783009599
     },
     {
       "bookId": "CB_1ieDJ6DJmFHz71z71FDeMAQO",
@@ -8195,11 +8243,11 @@
     }
   ],
   "stats": {
-    "totalReadTime": 1605259,
-    "totalReadDays": 545,
-    "totalBooks": 1010,
+    "totalReadTime": 1608358,
+    "totalReadDays": 547,
+    "totalBooks": 1016,
     "finishedBooks": 113,
-    "readingBooks": 897
+    "readingBooks": 903
   },
-  "updateTime": "2026-07-16T15:15:56.750Z"
+  "updateTime": "2026-07-18T15:59:13.791Z"
 }
