@@ -1,0 +1,134 @@
+---
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@/utils/content-utils";
+
+export async function getStaticPaths() {
+  const allPosts = await getSortedPosts();
+  
+  // 按目录分组
+  const groupedPosts: Record<string, typeof allPosts> = {};
+  for (const post of allPosts) {
+    const slug = post.slug || "";
+    const category = slug.split("/")[0];
+    if (!category || category === "posts") continue;
+    
+    if (!groupedPosts[category]) {
+      groupedPosts[category] = [];
+    }
+    groupedPosts[category].push(post);
+  }
+  
+  return Object.entries(groupedPosts).map(([name, posts]) => ({
+    params: { category: name },
+    props: {
+      categoryName: name,
+      posts: posts.sort((a, b) => 
+        new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+      )
+    }
+  }));
+}
+
+const { categoryName, posts } = Astro.props;
+const title = categoryName;
+const description = `${categoryName} 相关文章合集，共 ${posts.length} 篇`;
+---
+
+<MainGridLayout title={title} description={description}>
+  <div class="notebook-detail-container">
+    <!-- 页面头部 -->
+    <div class="page-header mb-8 pb-6 border-b border-neutral-200 dark:border-neutral-700">
+      <div class="flex items-center gap-3 mb-4">
+        <a href="/notebooks/" class="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          <Icon is:inline name="material-symbols:arrow-back-rounded" class="text-lg" />
+          返回笔记本列表
+        </a>
+      </div>
+      
+      <div class="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
+            {title}
+          </h1>
+          <p class="text-base text-neutral-600 dark:text-neutral-400">
+            {description}
+          </p>
+        </div>
+        
+        <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400">
+          <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800">
+            <Icon is:inline name="material-symbols:description-rounded" class="text-lg" />
+            <strong>{posts.length}</strong> 篇文章
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 文章列表 -->
+    <div class="article-list space-y-4">
+      {posts.map((post, index) => (
+        <article class="article-item group">
+          <a href={`/posts/${post.slug}/`} class="block p-5 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all duration-300 bg-white dark:bg-neutral-800/50">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex-1 min-w-0">
+                <!-- 标题 -->
+                <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                  {post.data.title}
+                </h2>
+                
+                <!-- 摘要 -->
+                {post.data.description && (
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed mb-3">
+                    {post.data.description}
+                  </p>
+                )}
+                
+                <!-- 元信息 -->
+                <div class="flex items-center gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+                  <span class="flex items-center gap-1">
+                    <Icon is:inline name="material-symbols:calendar-today-rounded" class="text-sm" />
+                    {post.data.date}
+                  </span>
+                  
+                  {post.data.tags && post.data.tags.length > 0 && (
+                    <span class="flex items-center gap-1">
+                      <Icon is:inline name="material-symbols:label-outline-rounded" class="text-sm" />
+                      {post.data.tags.slice(0, 3).join(", ")}
+                      {post.data.tags.length > 3 && ` +${post.data.tags.length - 3}`}
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              <!-- 序号 -->
+              <div class="hidden md:flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400 font-bold text-lg shrink-0">
+                {String(posts.length - index).padStart(2, '0')}
+              </div>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-700 text-center">
+      <a href="/notebooks/" class="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+        <Icon is:inline name="material-symbols:arrow-back-rounded" class="text-lg" />
+        返回笔记本列表
+      </a>
+    </div>
+  </div>
+</MainGridLayout>
+
+<style>
+  .article-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .page-header h1 {
+      font-size: 1.75rem;
+    }
+  }
+</style>

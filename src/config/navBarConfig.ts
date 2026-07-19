@@ -42,6 +42,8 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	});
 	// 书架
 	links.push(LinkPresets.Weread);
+	// 笔记本
+	links.push(LinkPresets.Notebooks);
 	// 友链
 	links.push(LinkPresets.Friends);
 
