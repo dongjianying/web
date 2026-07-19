@@ -49,10 +49,11 @@ const categoryInfo: Record<string, { cover: string; description: string }> = {
 // 按目录分组文章
 const groupedPosts: Record<string, typeof allPosts> = {};
 for (const post of allPosts) {
-  const slug = post.slug || "";
-  // 提取第一级目录作为分类
-  const category = slug.split("/")[0];
-  if (!category || category === "posts") continue;
+  const id = post.id || "";
+  // 移除文件扩展名，取第一级目录作为分类
+  const pathWithoutExt = id.replace(/\.(md|mdx|markdown)$/i, "");
+  const category = pathWithoutExt.split("/")[0];
+  if (!category || category === pathWithoutExt) continue; // 没有子目录的文章跳过
   
   if (!groupedPosts[category]) {
     groupedPosts[category] = [];
@@ -70,7 +71,7 @@ const categories = Object.entries(groupedPosts)
     
     // 获取最新更新时间
     const latestPost = posts.reduce((latest, current) => {
-      return new Date(current.data.date) > new Date(latest.data.date) ? current : latest;
+      return new Date(current.data.published) > new Date(latest.data.published) ? current : latest;
     }, posts[0]);
     
     return {
@@ -78,7 +79,7 @@ const categories = Object.entries(groupedPosts)
       count: posts.length,
       cover: info.cover,
       description: info.description,
-      latestDate: latestPost.data.date,
+      latestDate: latestPost.data.published.toISOString().split("T")[0],
       posts
     };
   })
@@ -93,6 +94,7 @@ const totalPosts = categories.reduce((sum, cat) => sum + cat.count, 0);
 const latestUpdate = categories.length > 0 
   ? categories[0].latestDate 
   : new Date().toISOString().split("T")[0];
+
 ---
 
 <MainGridLayout title={title} description={description}>

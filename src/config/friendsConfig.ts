@@ -69,6 +69,33 @@ export const friendsConfig: FriendLink[] = [
 		enabled: true, // 是否启用
 		feed: "https://justpureh2o.cn/rss.xml",
 	},
+	{
+		title: "番茄主理人",
+		imgurl: "https://q1.qlogo.cn/g?b=qq&nk=20447289&s=640",
+		desc: "坐而言不如起而行.",
+		siteurl: "https://fqzlr.com/",
+		tags: ["Blog"],
+		weight: 10, // 权重，数字越大排序越靠前
+		enabled: true, // 是否启用
+	},
+	{
+		title: "Zero - 浮生",
+		imgurl: "https://vtdd.vip/_astro/avatar.ryzKiMN3_19g6Gw.webp",
+		desc: "浮生一刹万般皆舍.",
+		siteurl: "https://vtdd.vip",
+		tags: ["Blog"],
+		weight: 10, // 权重，数字越大排序越靠前
+		enabled: true, // 是否启用
+	},
+	{
+		title: "Olinl Blog",
+		imgurl: "https://blog.olinl.com/assets/images/avatar.webp",
+		desc: "分享、实践、学习",
+		siteurl: "https://blog.olinl.com",
+		tags: ["Blog"],
+		weight: 10, // 权重，数字越大排序越靠前
+		enabled: true, // 是否启用
+	},
 ];
 
 // 获取启用的友链并进行排序
