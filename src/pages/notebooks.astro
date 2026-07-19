@@ -133,7 +133,7 @@ const latestUpdate = categories.length > 0
     <!-- 笔记本卡片网格 -->
     <div class="notebook-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {categories.map((category) => (
-        <a href={`/notebooks/${category.name}/`} class="notebook-card group">
+        <a href={`/notebooks/${encodeURIComponent(category.name)}/`} class="notebook-card group">
           <!-- 封面图 -->
           <div class="notebook-cover relative aspect-video overflow-hidden rounded-t-xl">
             <img
