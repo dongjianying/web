@@ -66,6 +66,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/weread/",
 		icon: "material-symbols:auto-stories-rounded",
 	},
+	Shuoshuo: {
+		name: "说说",
+		url: "/shuoshuo/",
+		icon: "material-symbols:forum",
+	},
 	Notebooks: {
 		name: "笔记本",
 		url: "/posts/notebooks/",

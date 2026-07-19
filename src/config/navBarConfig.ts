@@ -37,11 +37,18 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			LinkPresets.Notebooks,
 		],
 	});
-	//说说
+	// 动态及其子菜单
 	links.push({
-		name: "说说",
-		url: "/shuoshuo/",
-		icon: "material-symbols:forum",
+		name: "动态",
+		url: "#",
+		icon: "material-symbols:dynamic-feed",
+		children: [
+			// 说说
+			LinkPresets.Shuoshuo,
+
+			// 相册
+			LinkPresets.Gallery,
+		],
 	});
 	// 书架
 	links.push(LinkPresets.Weread);
@@ -50,17 +57,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 	// 留言板
 	links.push(LinkPresets.Guestbook);
-
-	// 我的及其子菜单
-	links.push({
-		name: "我的",
-		url: "#",
-		icon: "material-symbols:person",
-		children: [
-			// 相册
-			LinkPresets.Gallery,
-		],
-	});
 
 	// 关于及其子菜单
 	links.push({
