@@ -1,8 +1,18 @@
 ---
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@/utils/content-utils";
-import { join } from "path";
+
+// 导入封面图片（src/assets 下的图片需要 import）
+import cover1 from "@/assets/images/DesktopWallpaper/1.jpg";
+import cover2 from "@/assets/images/DesktopWallpaper/2.png";
+import cover3 from "@/assets/images/DesktopWallpaper/3.jpg";
+import cover4 from "@/assets/images/DesktopWallpaper/4.jpg";
+import cover5 from "@/assets/images/MobileWallpaper/1.jpg";
+import cover6 from "@/assets/images/MobileWallpaper/2.jpg";
+import cover7 from "@/assets/images/MobileWallpaper/3.png";
+import cover8 from "@/assets/images/MobileWallpaper/4.jpg";
 
 const title = "笔记本";
 const description = "按主题整理的文章合集，每一页都是成长的足迹";
@@ -11,37 +21,37 @@ const description = "按主题整理的文章合集，每一页都是成长的�
 const allPosts = await getSortedPosts();
 
 // 定义分类信息（封面图、描述等）
-const categoryInfo: Record<string, { cover: string; description: string }> = {
+const categoryInfo: Record<string, { cover: ImageMetadata | string; description: string }> = {
   "guide": {
-    cover: "/assets/images/DesktopWallpaper/1.jpg",
+    cover: cover1,
     description: "博客使用指南和教程"
   },
   "SC学习笔记": {
-    cover: "/assets/images/DesktopWallpaper/2.jpg",
+    cover: cover2,
     description: "合成生物学课程学习笔记"
   },
   "代码示例": {
-    cover: "/assets/images/DesktopWallpaper/3.jpg",
+    cover: cover3,
     description: "编程实践中的代码片段和示例"
   },
   "合成生物学": {
-    cover: "/assets/images/DesktopWallpaper/4.jpg",
+    cover: cover4,
     description: "合成生物学相关研究和思考"
   },
   "方程式": {
-    cover: "/assets/images/MobileWallpaper/1.jpg",
+    cover: cover5,
     description: "数学公式和推导过程"
   },
   "杂家摘记": {
-    cover: "/assets/images/MobileWallpaper/2.jpg",
+    cover: cover6,
     description: "日常阅读和思考的摘录"
   },
   "考研笔记": {
-    cover: "/assets/images/MobileWallpaper/3.jpg",
+    cover: cover7,
     description: "考研复习笔记和总结"
   },
   "随笔": {
-    cover: "/assets/images/MobileWallpaper/4.jpg",
+    cover: cover8,
     description: "生活感悟和随笔记录"
   }
 };
@@ -65,7 +75,7 @@ for (const post of allPosts) {
 const categories = Object.entries(groupedPosts)
   .map(([name, posts]) => {
     const info = categoryInfo[name] || {
-      cover: "/assets/images/cover.jpg",
+      cover: cover1,
       description: `${name} 相关文章`
     };
     
@@ -136,7 +146,7 @@ const latestUpdate = categories.length > 0
         <a href={`/notebooks/${encodeURIComponent(category.name)}/`} class="notebook-card group">
           <!-- 封面图 -->
           <div class="notebook-cover relative aspect-video overflow-hidden rounded-t-xl">
-            <img
+            <Image
               src={category.cover}
               alt={category.name}
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
