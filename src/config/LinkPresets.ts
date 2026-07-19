@@ -68,7 +68,7 @@ export const LinkPresets: Record<string, NavBarLink> = {
 	},
 	Notebooks: {
 		name: "笔记本",
-		url: "/notebooks/",
+		url: "/posts/notebooks/",
 		icon: "material-symbols:menu-book-rounded",
 	},
 };

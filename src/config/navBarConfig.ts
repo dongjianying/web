@@ -32,6 +32,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 			// 标签
 			LinkPresets.Tags,
+
+			// 笔记本
+			LinkPresets.Notebooks,
 		],
 	});
 	//说说
@@ -42,8 +45,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	});
 	// 书架
 	links.push(LinkPresets.Weread);
-	// 笔记本
-	links.push(LinkPresets.Notebooks);
 	// 友链
 	links.push(LinkPresets.Friends);
 
