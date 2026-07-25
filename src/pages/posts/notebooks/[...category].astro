@@ -4,31 +4,33 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@/utils/content-utils";
 
 export async function getStaticPaths() {
-  const allPosts = await getSortedPosts();
-  
-  // 按目录分组
-  const groupedPosts: Record<string, typeof allPosts> = {};
-  for (const post of allPosts) {
-    const id = post.id || "";
-    const pathWithoutExt = id.replace(/\.(md|mdx|markdown)$/i, "");
-    const category = pathWithoutExt.split("/")[0];
-    if (!category || category === pathWithoutExt) continue;
-    
-    if (!groupedPosts[category]) {
-      groupedPosts[category] = [];
-    }
-    groupedPosts[category].push(post);
-  }
-  
-  return Object.entries(groupedPosts).map(([name, posts]) => ({
-    params: { category: name },
-    props: {
-      categoryName: name,
-      posts: posts.sort((a, b) => 
-        new Date(b.data.published).getTime() - new Date(a.data.published).getTime()
-      )
-    }
-  }));
+	const allPosts = await getSortedPosts();
+
+	// 按目录分组
+	const groupedPosts: Record<string, typeof allPosts> = {};
+	for (const post of allPosts) {
+		const id = post.id || "";
+		const pathWithoutExt = id.replace(/\.(md|mdx|markdown)$/i, "");
+		const category = pathWithoutExt.split("/")[0];
+		if (!category || category === pathWithoutExt) continue;
+
+		if (!groupedPosts[category]) {
+			groupedPosts[category] = [];
+		}
+		groupedPosts[category].push(post);
+	}
+
+	return Object.entries(groupedPosts).map(([name, posts]) => ({
+		params: { category: name },
+		props: {
+			categoryName: name,
+			posts: posts.sort(
+				(a, b) =>
+					new Date(b.data.published).getTime() -
+					new Date(a.data.published).getTime(),
+			),
+		},
+	}));
 }
 
 const { categoryName, posts } = Astro.props;

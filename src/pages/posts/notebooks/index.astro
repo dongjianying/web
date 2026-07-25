@@ -1,6 +1,6 @@
 ---
-import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@/utils/content-utils";
 
@@ -8,18 +8,18 @@ import { getSortedPosts } from "@/utils/content-utils";
 // 自动发现封面图片（无需手动 import，新增图片自动生效）
 // ============================================================
 const desktopImages = import.meta.glob<{ default: ImageMetadata }>(
-  "@/assets/images/DesktopWallpaper/*.{jpg,jpeg,png,webp,avif}",
-  { eager: true }
+	"@/assets/images/DesktopWallpaper/*.{jpg,jpeg,png,webp,avif}",
+	{ eager: true },
 );
 const mobileImages = import.meta.glob<{ default: ImageMetadata }>(
-  "@/assets/images/MobileWallpaper/*.{jpg,jpeg,png,webp,avif}",
-  { eager: true }
+	"@/assets/images/MobileWallpaper/*.{jpg,jpeg,png,webp,avif}",
+	{ eager: true },
 );
 
 // 所有可用封面图片池
 const allCovers: ImageMetadata[] = [
-  ...Object.values(desktopImages).map(m => m.default),
-  ...Object.values(mobileImages).map(m => m.default),
+	...Object.values(desktopImages).map((m) => m.default),
+	...Object.values(mobileImages).map((m) => m.default),
 ];
 
 // ============================================================
@@ -27,29 +27,36 @@ const allCovers: ImageMetadata[] = [
 // 新增笔记本只需在 src/content/posts/ 下建文件夹，无需改这里
 // ============================================================
 const categoryDescriptions: Record<string, string> = {
-  "guide": "博客使用指南和教程",
-  "SC学习笔记": "合成生物学课程学习笔记",
-  "代码示例": "编程实践中的代码片段和示例",
-  "合成生物学": "合成生物学相关研究和思考",
-  "方程式": "数学公式和推导过程",
-  "杂家摘记": "日常阅读和思考的摘录",
-  "考研笔记": "考研复习笔记和总结",
-  "随笔": "生活感悟和随笔记录",
+	guide: "博客使用指南和教程",
+	SC学习笔记: "合成生物学课程学习笔记",
+	代码示例: "编程实践中的代码片段和示例",
+	合成生物学: "合成生物学相关研究和思考",
+	方程式: "数学公式和推导过程",
+	杂家摘记: "日常阅读和思考的摘录",
+	考研笔记: "考研复习笔记和总结",
+	随笔: "生活感悟和随笔记录",
 };
 
 // 根据分类名自动匹配封面图（按名称哈希稳定分配，同类名始终同一张图）
 function getCoverForCategory(name: string): ImageMetadata {
-  // 优先匹配图片文件名（如 “方程式.jpg” 自动匹配 “方程式” 分类）
-  for (const [path, mod] of Object.entries({ ...desktopImages, ...mobileImages })) {
-    const fileName = path.split("/").pop()?.replace(/\.[^.]+$/, "") || "";
-    if (fileName === name) return mod.default;
-  }
-  // 否则按名称哈希稳定分配
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = ((hash << 5) - hash + name.charCodeAt(i)) | 0;
-  }
-  return allCovers[Math.abs(hash) % allCovers.length];
+	// 优先匹配图片文件名（如 “方程式.jpg” 自动匹配 “方程式” 分类）
+	for (const [path, mod] of Object.entries({
+		...desktopImages,
+		...mobileImages,
+	})) {
+		const fileName =
+			path
+				.split("/")
+				.pop()
+				?.replace(/\.[^.]+$/, "") || "";
+		if (fileName === name) return mod.default;
+	}
+	// 否则按名称哈希稳定分配
+	let hash = 0;
+	for (let i = 0; i < name.length; i++) {
+		hash = ((hash << 5) - hash + name.charCodeAt(i)) | 0;
+	}
+	return allCovers[Math.abs(hash) % allCovers.length];
 }
 
 const title = "笔记本";
@@ -61,44 +68,46 @@ const allPosts = await getSortedPosts();
 // 按目录分组文章
 const groupedPosts: Record<string, typeof allPosts> = {};
 for (const post of allPosts) {
-  const id = post.id || "";
-  const pathWithoutExt = id.replace(/\.(md|mdx|markdown)$/i, "");
-  const category = pathWithoutExt.split("/")[0];
-  if (!category || category === pathWithoutExt) continue;
-  
-  if (!groupedPosts[category]) {
-    groupedPosts[category] = [];
-  }
-  groupedPosts[category].push(post);
+	const id = post.id || "";
+	const pathWithoutExt = id.replace(/\.(md|mdx|markdown)$/i, "");
+	const category = pathWithoutExt.split("/")[0];
+	if (!category || category === pathWithoutExt) continue;
+
+	if (!groupedPosts[category]) {
+		groupedPosts[category] = [];
+	}
+	groupedPosts[category].push(post);
 }
 
 // 转换为数组并排序
 const categories = Object.entries(groupedPosts)
-  .map(([name, posts]) => {
-    const latestPost = posts.reduce((latest, current) => {
-      return new Date(current.data.published) > new Date(latest.data.published) ? current : latest;
-    }, posts[0]);
-    
-    return {
-      name,
-      count: posts.length,
-      cover: getCoverForCategory(name),
-      description: categoryDescriptions[name] || `${name} 相关文章`,
-      latestDate: latestPost.data.published.toISOString().split("T")[0],
-      posts
-    };
-  })
-  .sort((a, b) => {
-    return new Date(b.latestDate).getTime() - new Date(a.latestDate).getTime();
-  });
+	.map(([name, posts]) => {
+		const latestPost = posts.reduce((latest, current) => {
+			return new Date(current.data.published) > new Date(latest.data.published)
+				? current
+				: latest;
+		}, posts[0]);
+
+		return {
+			name,
+			count: posts.length,
+			cover: getCoverForCategory(name),
+			description: categoryDescriptions[name] || `${name} 相关文章`,
+			latestDate: latestPost.data.published.toISOString().split("T")[0],
+			posts,
+		};
+	})
+	.sort((a, b) => {
+		return new Date(b.latestDate).getTime() - new Date(a.latestDate).getTime();
+	});
 
 // 计算总数
 const totalCategories = categories.length;
 const totalPosts = categories.reduce((sum, cat) => sum + cat.count, 0);
-const latestUpdate = categories.length > 0 
-  ? categories[0].latestDate 
-  : new Date().toISOString().split("T")[0];
-
+const latestUpdate =
+	categories.length > 0
+		? categories[0].latestDate
+		: new Date().toISOString().split("T")[0];
 ---
 
 <MainGridLayout title={title} description={description}>
